@@ -15,12 +15,10 @@
 		var HS4 = TAFFY( HS4_code );
 		var HS6 = TAFFY( HS6_code );
 		// when outputing hscode field, 01 will be 1, but when doing matching, we still need 01 to match it !!!!
-
 		</script>
 	</head>
 	<body>
     <h1>Trading Data</h1>
-    
     <!-- display results for selection -->
     <p id="eventResult">Here is the result of event.</p>
     <select multiple="multiple" id='First_Level_Selection' style='width:1100px;'></select>
@@ -29,10 +27,9 @@
     <div id='selected_HS_Code'></div>
 
     <script>
-
     // Used to store Selected HS2 code
     var selectedValues = [];
-    
+
     // Used to generate regex expression for HS2
 	function regex2gen(number)
 	{
@@ -199,7 +196,6 @@
 
         $( document ).ready(function() {
 		    $("#includeDetail").click(function(){
-		    	// $( "#First_Level_Selection" ).unbind();
 		    	$("#First_Level_Selection").html("");
                 selectionBox();
                 selectBoxInitialization();
