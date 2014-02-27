@@ -1,0 +1,119 @@
+<html>
+	<head>
+		<script type="text/javascript" src="./taffydb-master/taffy.js"></script>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="./js/importDestination.js"></script>
+		<script type="text/javascript" src="./js/exportDestination.js"></script>
+		<script type="text/javascript" src="./js/importTop25.js"></script>
+		<script type="text/javascript" src="./js/exportTop25.js"></script>
+		<script type="text/javascript" src="./js/stateAbbreviations.js"></script>
+		<script>
+		
+		//create databases from JSON data
+		var importDestinationDB = TAFFY(importDestination);
+		var exportDestinationDB = TAFFY(exportDestination);
+		var importTop25DB = TAFFY(importTop25);
+		var exportTop25DB = TAFFY(exportTop25);
+		var stateAbbreviationsDB = TAFFY(StateAbbreviations);
+		
+		/**
+		 * search a database by state abbreviation
+		 * @param searchDB {TAFFY} database to be searched
+		 * @param abbrs {string[]} array of state abbreviations
+		 * @return results[i=number of abbrs][j=number of results for each abbr]
+		 */
+		function searchDBByAbbr(searchDB, abbrs) {
+			var results = [];
+			for (i=0; i<abbrs.length; i++) {
+				results.push(searchDB({StateAbbr:abbrs[i]}).get());
+			}
+			return results;
+		}
+
+		/**
+		 * populate multi-select listbox with all states
+		 */
+		function populateListbox() {
+			var select = document.getElementById("statesListbox");
+			stateAbbreviationsDB().each(function (s) {
+				select.options[select.options.length] = new Option(s.State, s.Abbreviation);
+			});
+		}
+		</script>	
+	</head>
+	
+	<body onload="populateListbox();">
+		
+		<!-- radio buttons with databases -->
+		<form id="dbForm" action="">
+			<input type="radio" name="dbRadio" value= "importDestinationRadio" checked>importDestination
+			<input type="radio" name="dbRadio" value= "exportDestinationRadio">exportDestination
+			<input type="radio" name="dbRadio" value= "importTop25Radio">importTop25
+			<input type="radio" name="dbRadio" value= "exportTop25Radio">exportTop25
+		</form>
+	
+		<!-- multi-select box with all states -->
+		<form id="stateForm">
+			<select id="statesListbox" multiple size="20">
+			</select>		
+		</form>
+
+		<!-- results of db search -->
+		<table id="resultsTable" border="1">
+			<tbody>
+			</tbody>
+		</table>
+
+		<script>
+		//populates the results table based on db and state selection
+		function populateResultsTable() {
+			//get values of radio buttons and listbox
+			var selectedStates = $("#statesListbox").val() || [];
+			var selectedDB = $("input[name='dbRadio']:checked").val();
+			var queryResults;
+			//pass the database to the search function
+			switch (selectedDB) {
+				case "importDestinationRadio":
+					queryResults = searchDBByAbbr(importDestinationDB, selectedStates);
+					break;
+				case "exportDestinationRadio":
+					queryResults = searchDBByAbbr(exportDestinationDB, selectedStates);
+					break;
+				case "importTop25Radio":
+					queryResults = searchDBByAbbr(importTop25DB, selectedStates);
+					break;
+				case "exportTop25Radio":
+					queryResults = searchDBByAbbr(exportTop25DB, selectedStates);
+					break;
+			}
+			//clear table before repopulating
+			$("#resultsTable tbody").empty();
+			var newRow = $("#resultsTable tbody");
+			for (i=0; i<queryResults.length; i++) {	
+				//populate column headers
+				for (var key in queryResults[i][0]) {
+					if (queryResults[i][0].hasOwnProperty(key)) {
+						newRow.append("<td>"+key+"</td>");
+					}
+				}
+				//populate each row
+				for (j=0; j<queryResults[i].length; j++) {
+					newRow.append("<tr>");
+					for (var key in queryResults[i][j]) {
+						if (queryResults[i][j].hasOwnProperty(key)) {
+							newRow.append("<td>"+queryResults[i][j][key]+"</td>");
+						}
+					}
+					newRow.append("</tr>");
+				}		
+			}
+		}
+		
+		//populate results table when radio button or listbox changes
+		$("#statesListbox").change(populateResultsTable);
+		$("input[name='dbRadio']").change(populateResultsTable);
+		populateResultsTable();
+		</script>
+		
+	</body>
+</html>
