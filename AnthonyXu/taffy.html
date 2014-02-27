@@ -29,6 +29,37 @@
 			}
 			return results;
 		}
+		
+		/**
+		 * search exportTop25DB for the top US exports
+		 * @param numberOfResults {Number} Number of top results to be returned
+		 * @return results[i=number of abbrs][j=number of results for each abbr]
+		 */
+		function topUSExports(numberOfResults) {
+			var results = [];
+			var exportSums = [];
+			var distinctHSCodes = exportTop25DB().distinct("HSCode");
+			console.log(distinctHSCodes);
+			/*
+			for (i=0; i<distinctHSCodes.length; i++) {
+				var exportSumsKey = distinctHSCodes[i];
+				//exportSums.push({distinctHSCodes[i]:exportTop25DB().filter({HSCode:distinctHSCodes[i]}).sum("2012Value")})
+				exportSums[exportSumsKey] = exportTop25DB().filter({HSCode:distinctHSCodes[i]}).sum("2012Value");
+			}
+			var biggestExp = 0;
+					for (var sumkey in exportSums) {
+						if (exportSums.hasOwnProperty(sumkey)) {
+							if ((exportSums[sumkey]>biggestExp) && sumkey!=0) {
+								biggestExp = exportSums[sumkey];
+								
+							}
+						}
+					}	
+			console.log(biggestExp)
+			console.log(exportSums);
+			return exportSums;
+			*/
+		}
 
 		/**
 		 * populate multi-select listbox with all states
@@ -50,6 +81,7 @@
 			<input type="radio" name="dbRadio" value= "exportDestinationRadio">exportDestination
 			<input type="radio" name="dbRadio" value= "importTop25Radio">importTop25
 			<input type="radio" name="dbRadio" value= "exportTop25Radio">exportTop25
+			<input type="radio" name="dbRadio" value= "topUSExportsRadio">topUSExports
 		</form>
 	
 		<!-- multi-select box with all states -->
@@ -84,6 +116,9 @@
 					break;
 				case "exportTop25Radio":
 					queryResults = searchDBByAbbr(exportTop25DB, selectedStates);
+					break;
+				case "topUSExportsRadio":
+					queryResults = topUSExports(50);
 					break;
 			}
 			//clear table before repopulating
