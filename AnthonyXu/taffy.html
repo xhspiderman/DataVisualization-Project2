@@ -97,53 +97,6 @@
 		</table>
 
 		<script>
-		//populates the results table based on db and state selection
-		function populateResultsTable() {
-			//get values of radio buttons and listbox
-			var selectedStates = $("#statesListbox").val() || [];
-			var selectedDB = $("input[name='dbRadio']:checked").val();
-			var queryResults;
-			//pass the database to the search function
-			switch (selectedDB) {
-				case "importDestinationRadio":
-					queryResults = searchDBByAbbr(importDestinationDB, selectedStates);
-					break;
-				case "exportDestinationRadio":
-					queryResults = searchDBByAbbr(exportDestinationDB, selectedStates);
-					break;
-				case "importTop25Radio":
-					queryResults = searchDBByAbbr(importTop25DB, selectedStates);
-					break;
-				case "exportTop25Radio":
-					queryResults = searchDBByAbbr(exportTop25DB, selectedStates);
-					break;
-				case "topUSExportsRadio":
-					queryResults = topUSExports(50);
-					break;
-			}
-			//clear table before repopulating
-			$("#resultsTable tbody").empty();
-			var newRow = $("#resultsTable tbody");
-			for (i=0; i<queryResults.length; i++) {	
-				//populate column headers
-				for (var key in queryResults[i][0]) {
-					if (queryResults[i][0].hasOwnProperty(key)) {
-						newRow.append("<td>"+key+"</td>");
-					}
-				}
-				//populate each row
-				for (j=0; j<queryResults[i].length; j++) {
-					newRow.append("<tr>");
-					for (var key in queryResults[i][j]) {
-						if (queryResults[i][j].hasOwnProperty(key)) {
-							newRow.append("<td>"+queryResults[i][j][key]+"</td>");
-						}
-					}
-					newRow.append("</tr>");
-				}		
-			}
-		}
-		
 		//populate results table when radio button or listbox changes
 		$("#statesListbox").change(populateResultsTable);
 		$("input[name='dbRadio']").change(populateResultsTable);
