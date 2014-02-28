@@ -6,12 +6,16 @@
 		 */
 		function searchDBByAbbr(searchDB, abbrs) {
 			var results = [];
-			for (i=0; i<abbrs.length; i++) {
-				results.push(searchDB({StateAbbr:abbrs[i]}).get());
-			}
+			results.push(searchDB({StateAbbr:abbrs}).get())
 			return results;
 		}
-
+        // This version outputs the queryset with HS_codes
+		function searchDBByAbbr_HS(searchDB, abbrs,HSarray) {
+			console.log('Filtering HS Code')
+			var results = [];
+			results.push(searchDB({StateAbbr:abbrs},{HSCode:HSarray}).get())
+			return results;
+		}
 
 /**
 		 * search exportTop25DB for the top US exports
@@ -43,7 +47,6 @@
 			return exportSums;
 			*/
 		}
-
 /**
 		 * populate multi-select listbox with all states
 		 */
@@ -59,6 +62,9 @@
 			//get values of radio buttons and listbox
 			var selectedStates = $("#statesListbox").val() || [];
 			var selectedDB = $("input[name='dbRadio']:checked").val();
+			//get HS6_codes from global variable selected_HS6_Codes
+			var HSarray = selected_HS6_Codes
+			console.log(HSarray)
 			var queryResults;
 			//pass the database to the search function
 			switch (selectedDB) {
@@ -70,10 +76,10 @@
 					break;
 					// Hao will be adding HScode filtering
 				case "importTop25Radio":
-					queryResults = searchDBByAbbr(importTop25DB, selectedStates);
+					queryResults = searchDBByAbbr_HS(importTop25DB, selectedStates, HSarray);
 					break;
 				case "exportTop25Radio":
-					queryResults = searchDBByAbbr(exportTop25DB, selectedStates);
+					queryResults = searchDBByAbbr_HS(exportTop25DB, selectedStates, HSarray);
 					break;
 				case "topUSExportsRadio":
 					queryResults = topUSExports(50);
@@ -101,7 +107,6 @@
 				}		
 			}
 		}
-
 
 // Used to generate regex expression for HS2
 	function regex2gen(number)
@@ -136,30 +141,30 @@
 	}
 
 	function HS6_Code_Update(){ 
-		var selected_HS6_Codes = []
-		// includeDetail = document.getElementById("includeDetail").checked
+		selected_HS6_Codes = []
+
 		includeDetail = document.getElementById("includeDetail").checked
 
 		if(includeDetail){// code for detailed selection box
+			var queryArray=[]
 			for (var i in selectedValues){
-				// derive HS6 code from HS6 code
-				HS6({hs_code:{regex: regexgen(selectedValues[i],0)}}).each(function (record,recordnumber) {
-                    selected_HS6_Codes.push({'hs_6': record.hs_code, 'description':record.description})
-        		});
-			}
+        	// derive HS6 code from HS6 code
+                queryArray.push(regexgen(selectedValues[i],0))    		   
+	        }
+            selected_HS6_Codes=HS6({hs_code:{regex: queryArray}}).select("hs_code")
 		}
 		else{// code for no-detail selection box
+			var queryArray=[]
 			for (var i in selectedValues){
         	// derive HS6 code from HS2 code
-    		HS6({hs_code:{regex: regexgen(selectedValues[i],4)}}).each(function (record,recordnumber) {
-                    selected_HS6_Codes.push({'hs_6': record.hs_code, 'description':record.description})
-        		});
+                queryArray.push(regexgen(selectedValues[i],4))    		   
 	        }
+            selected_HS6_Codes=HS6({hs_code:{regex: queryArray}}).select("hs_code")
 		}
 	        // stringiy HS6 matrix and display them
-        var x=document.getElementById("selected_HS_Code");
-			x.innerHTML= JSON.stringify(selected_HS6_Codes);
-			console.log(selected_HS6_Codes.length)
+        var x=document.getElementById("selected_HS_Code"); 
+            // console.log(selected_HS6_Codes)
+			// x.innerHTML= JSON.stringify(selected_HS6_Codes);
 	}
 
 // As the starting choosing list
@@ -230,10 +235,12 @@
 	            onCheckAll: function() {
 	                // $('#eventResult').text('Check all clicked!');
 	                selectionUpdate()
+	                populateResultsTable()
 	            },
 	            onUncheckAll: function() {
 	                // $('#eventResult').text('Uncheck all clicked!');
 	                selectionUpdate()
+	                populateResultsTable()
 	            },
 	            onOptgroupClick: function(view) {
 	                // var values = $.map(view.children, function(child){
@@ -242,13 +249,16 @@
 	                // $('#eventResult').text('Optgroup ' + view.label + ' ' + 
 	                //     (view.checked ? 'checked' : 'unchecked') + ': ' + values);
 	                selectionUpdate()
+	                populateResultsTable()
 	            },
 	            onClick: function(view) {
 	                // $('#eventResult').text(view.label + '(' + view.value + ') ' + 
 	                //     (view.checked ? 'checked' : 'unchecked'));
 	                selectionUpdate()
+	                populateResultsTable()
 	            }
 	        });
+		// $("#First_Level_Selection").multipleSelect("checkAll"); // select all options if needed
     }
 
     // collect selected datas

@@ -32,29 +32,10 @@
 	<body>
     <h1>Trading Data</h1>
     <!-- display results for selection -->
-<!--     <p id="eventResult">Here is the result of event.</p> -->
+	<!--     <p id="eventResult">Here is the result of event.</p> -->
     <select multiple="multiple" id='First_Level_Selection' style='width:1100px;'></select>
     <input type="checkbox" id="includeDetail">include detail
-    <!-- display results for selected HS6 code -->
-    <div id='selected_HS_Code'></div>
-
-    <script>
-    // Used to store Selected HS2 code
-    var selectedValues = [];
-    selectionBox()
-    selectBoxInitialization();
-    
-    $( document ).ready(function() {
-    	populateListbox();
-	    $("#includeDetail").click(function(){
-	    	$("#First_Level_Selection").html("");
-            selectionBox();
-            selectBoxInitialization();
-	    });
-	});
-    </script>
-
-		<!-- radio buttons with databases -->
+    	<!-- radio buttons with databases -->
 	<form id="dbForm" action="">
 		<input type="radio" name="dbRadio" value= "importDestinationRadio" checked>importDestination
 		<input type="radio" name="dbRadio" value= "exportDestinationRadio">exportDestination
@@ -69,17 +50,43 @@
 		</select>		
 	</form>
 
+    <!-- display results for selected HS6 code -->
+    <div id='selected_HS_Code'></div>
+
 	<!-- results of db search -->
 	<table id="resultsTable" border="1">
 		<tbody>
 		</tbody>
 	</table>
 
+    <script>
+    // Used to store Selected HS2 code
+    var selectedValues = [];
+    // used to store selected HS6 code
+    var selected_HS6_Codes = [];
+
+    
+    $( document ).ready(function() {
+	    selectionBox()// Prepare all data needed for initializing selectBox
+	    selectBoxInitialization(); // Initialize selectBox
+    	populateListbox();
+	    $("#includeDetail").click(function(){
+	    	$("#First_Level_Selection").html("");
+            selectionBox();
+            selectBoxInitialization();
+	    });
+    	//populate results table when radio button or listbox changes
+		$("#statesListbox").change(populateResultsTable);
+		$("input[name='dbRadio']").change(populateResultsTable);
+	});
+    </script>
+
+
+
+
+
 	<script>
-	//populate results table when radio button or listbox changes
-	$("#statesListbox").change(populateResultsTable);
-	$("input[name='dbRadio']").change(populateResultsTable);
-	populateResultsTable();
+
 	</script>
 
 	</body>
