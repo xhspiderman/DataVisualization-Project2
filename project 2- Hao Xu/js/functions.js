@@ -7,14 +7,17 @@
 		function searchDBByAbbr(searchDB, abbrs) {
 			var results = [];
 			results.push(searchDB({StateAbbr:abbrs}).get())
-			return results;
+			return searchDB({StateAbbr:abbrs}).get();
 		}
         // This version outputs the queryset with HS_codes
 		function searchDBByAbbr_HS(searchDB, abbrs,HSarray) {
-			console.log('Filtering HS Code')
+			// console.log('Filtering HS Code')
 			var results = [];
 			results.push(searchDB({StateAbbr:abbrs},{HSCode:HSarray}).get())
-			return results;
+			if(HSarray.length==0){
+				return  searchDB({StateAbbr:abbrs}).get()
+			}
+			return searchDB({StateAbbr:abbrs},{HSCode:HSarray}).order("2012Value desc").get();
 		}
 
 /**
@@ -26,7 +29,7 @@
 			var results = [];
 			var exportSums = [];
 			var distinctHSCodes = exportTop25DB().distinct("HSCode");
-			console.log(distinctHSCodes);
+			// console.log(distinctHSCodes);
 			/*
 			for (i=0; i<distinctHSCodes.length; i++) {
 				var exportSumsKey = distinctHSCodes[i];
@@ -51,62 +54,47 @@
 		 * populate multi-select listbox with all states
 		 */
 		function populateListbox() {
-			var select = document.getElementById("statesListbox");
+			var select = document.getElementById("statesListbox_by_country");
+			var select2 = document.getElementById("statesListbox_by_commody");
 			stateAbbreviationsDB().each(function (s) {
 				select.options[select.options.length] = new Option(s.State, s.Abbreviation);
+				select2.options[select2.options.length] = new Option(s.State, s.Abbreviation);
 			});
 		}
 
 		//populates the results table based on db and state selection
-		function populateResultsTable() {
-			//get values of radio buttons and listbox
-			var selectedStates = $("#statesListbox").val() || [];
-			var selectedDB = $("input[name='dbRadio']:checked").val();
-			//get HS6_codes from global variable selected_HS6_Codes
-			var HSarray = selected_HS6_Codes
-			console.log(HSarray)
-			var queryResults;
-			//pass the database to the search function
-			switch (selectedDB) {
-				case "importDestinationRadio":
-					queryResults = searchDBByAbbr(importDestinationDB, selectedStates);
-					break;
-				case "exportDestinationRadio":
-					queryResults = searchDBByAbbr(exportDestinationDB, selectedStates);
-					break;
-					// Hao will be adding HScode filtering
-				case "importTop25Radio":
-					queryResults = searchDBByAbbr_HS(importTop25DB, selectedStates, HSarray);
-					break;
-				case "exportTop25Radio":
-					queryResults = searchDBByAbbr_HS(exportTop25DB, selectedStates, HSarray);
-					break;
-				case "topUSExportsRadio":
-					queryResults = topUSExports(50);
-					break;
-			}
-			//clear table before repopulating
-			$("#resultsTable tbody").empty();
-			var newRow = $("#resultsTable tbody");
-			for (i=0; i<queryResults.length; i++) {	
-				//populate column headers
-				for (var key in queryResults[i][0]) {
-					if (queryResults[i][0].hasOwnProperty(key)) {
-						newRow.append("<td>"+key+"</td>");
-					}
-				}
-				//populate each row
-				for (j=0; j<queryResults[i].length; j++) {
-					newRow.append("<tr>");
-					for (var key in queryResults[i][j]) {
-						if (queryResults[i][j].hasOwnProperty(key)) {
-							newRow.append("<td>"+queryResults[i][j][key]+"</td>");
-						}
-					}
-					newRow.append("</tr>");
-				}		
-			}
+		function populateResultsTable_by_country(selectedStates, HSarray) {
+            
+            var importResultsTable_by_country;
+			var exportResultsTable_by_country;
+
+			importResultsTable_by_country = searchDBByAbbr(importDestinationDB, selectedStates);
+			exportResultsTable_by_country = searchDBByAbbr(exportDestinationDB, selectedStates);
+			console.log('selectedStates: ')
+			console.log(selectedStates)
+			console.log('importResultsTable_by_country: ')
+			console.log(importResultsTable_by_country)
+			console.log('exportResultsTable_by_country: ')
+			console.log(exportResultsTable_by_country)
 		}
+		function populateResultsTable_by_commody(selectedStates, HSarray) {
+            
+            var importResultsTable_by_commody;
+			var exportResultsTable_by_commody;
+
+			importResultsTable_by_commody = searchDBByAbbr_HS(importTop25DB, selectedStates, HSarray);
+			exportResultsTable_by_commody = searchDBByAbbr_HS(exportTop25DB, selectedStates, HSarray);
+			console.log('selectedStates: ')
+			console.log(selectedStates)
+			console.log('HScode: ')
+			console.log(HSarray)
+			console.log('importResultsTable_by_commody: ')
+			console.log(importResultsTable_by_commody)
+			console.log('exportResultsTable_by_commody: ')
+			console.log(exportResultsTable_by_commody)
+
+		}
+
 
 // Used to generate regex expression for HS2
 	function regex2gen(number)
@@ -235,12 +223,12 @@
 	            onCheckAll: function() {
 	                // $('#eventResult').text('Check all clicked!');
 	                selectionUpdate()
-	                populateResultsTable()
+	
 	            },
 	            onUncheckAll: function() {
 	                // $('#eventResult').text('Uncheck all clicked!');
 	                selectionUpdate()
-	                populateResultsTable()
+
 	            },
 	            onOptgroupClick: function(view) {
 	                // var values = $.map(view.children, function(child){
@@ -249,13 +237,13 @@
 	                // $('#eventResult').text('Optgroup ' + view.label + ' ' + 
 	                //     (view.checked ? 'checked' : 'unchecked') + ': ' + values);
 	                selectionUpdate()
-	                populateResultsTable()
+
 	            },
 	            onClick: function(view) {
 	                // $('#eventResult').text(view.label + '(' + view.value + ') ' + 
 	                //     (view.checked ? 'checked' : 'unchecked'));
 	                selectionUpdate()
-	                populateResultsTable()
+
 	            }
 	        });
 		// $("#First_Level_Selection").multipleSelect("checkAll"); // select all options if needed
@@ -266,6 +254,8 @@
 
         selectedValues = $("#First_Level_Selection").multipleSelect("getSelects");
         var selectedTexts = $("#First_Level_Selection").multipleSelect("getSelects", "text");
-        // $('#eventResult').html(selectedValues)
         HS6_Code_Update()
+		var selectedStates = $("#statesListbox_by_commody").val() || [];
+		var HSarray = selected_HS6_Codes
+        populateResultsTable_by_commody(selectedStates, HSarray)
     };

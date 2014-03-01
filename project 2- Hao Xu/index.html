@@ -35,29 +35,14 @@
 	<!--     <p id="eventResult">Here is the result of event.</p> -->
     <select multiple="multiple" id='First_Level_Selection' style='width:1100px;'></select>
     <input type="checkbox" id="includeDetail">include detail
-    	<!-- radio buttons with databases -->
-	<form id="dbForm" action="">
-		<input type="radio" name="dbRadio" value= "importDestinationRadio" checked>importDestination
-		<input type="radio" name="dbRadio" value= "exportDestinationRadio">exportDestination
-		<input type="radio" name="dbRadio" value= "importTop25Radio">importTop25
-		<input type="radio" name="dbRadio" value= "exportTop25Radio">exportTop25
-		<input type="radio" name="dbRadio" value= "topUSExportsRadio">topUSExports
-	</form>
-
+	<select id="statesListbox_by_commody" multiple size="20"></select>	
+    <hr>
 	<!-- multi-select box with all states -->
-	<form id="stateForm">
-		<select id="statesListbox" multiple size="20">
-		</select>		
-	</form>
+	<select id="statesListbox_by_country" multiple size="20"></select>
+		
 
     <!-- display results for selected HS6 code -->
     <div id='selected_HS_Code'></div>
-
-	<!-- results of db search -->
-	<table id="resultsTable" border="1">
-		<tbody>
-		</tbody>
-	</table>
 
     <script>
     // Used to store Selected HS2 code
@@ -76,18 +61,25 @@
             selectBoxInitialization();
 	    });
     	//populate results table when radio button or listbox changes
-		$("#statesListbox").change(populateResultsTable);
-		$("input[name='dbRadio']").change(populateResultsTable);
+		$("#statesListbox_by_country").change(function(){
+			var selectedStates = $("#statesListbox_by_country").val() || [];
+			var HSarray = selected_HS6_Codes
+			// console.log('selectedStates: ')
+			// console.log(selectedStates)
+			// console.log('HScode: ')
+			// console.log(HSarray)
+	        populateResultsTable_by_country(selectedStates, HSarray);
+		});
+		$("#statesListbox_by_commody").change(function(){
+			var selectedStates = $("#statesListbox_by_commody").val() || [];
+			var HSarray = selected_HS6_Codes
+			// console.log('selectedStates: '+selectedStates)
+			// console.log('HScode: '+HSarray)
+	        populateResultsTable_by_commody(selectedStates, HSarray)
+		});
+
 	});
     </script>
-
-
-
-
-
-	<script>
-
-	</script>
 
 	</body>
 				
