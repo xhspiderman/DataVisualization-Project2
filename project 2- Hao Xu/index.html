@@ -12,8 +12,13 @@
 		<script type="text/javascript" src="js/stateAbbreviations.js"></script>
 		<script src="multiple-select-master/jquery-1.11.0.min.js"></script>
 		<script src="multiple-select-master/jquerymultipleselect.js"></script>
-		<script type="text/javascript" src="js/functions.js"></script>
 		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		<script type="text/javascript" src="js/functions.js"></script>
+<<<<<<< HEAD
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+=======
+		
+>>>>>>> Anthony's-Branch
 		<link rel="stylesheet" type="text/css" href="multiple-select-master/multiple-select.css">
 
 		<script>
@@ -28,6 +33,7 @@
 		var importTop25DB = TAFFY(importTop25);
 		var exportTop25DB = TAFFY(exportTop25);
 		var stateAbbreviationsDB = TAFFY(StateAbbreviations);
+<<<<<<< HEAD
 		var importResultsTable_by_country;
 		var exportResultsTable_by_country;
 		var importResultsTable_by_commody;
@@ -40,6 +46,10 @@
 		var data_by_commody
 		var data_by_country_export
 		var data_by_commody_export
+=======
+		google.load('visualization', '1', {'packages': ['geochart']});
+		google.setOnLoadCallback(drawRegionsMap);		
+>>>>>>> Anthony's-Branch
 		</script>
 	</head>
 	<body>
@@ -59,6 +69,7 @@
 	<div id="export_columnchart_by_commody" style="width: 200px; height: 200px; float:left;"></div>
     <hr>
 	<!-- multi-select box with all states -->
+<<<<<<< HEAD
 	<select id="statesListbox_by_country" multiple size="20" style='width:150px;height:200px;'></select>
 	<script type="text/javascript">
       google.load("visualization", "1", {packages:["corechart"]});
@@ -68,6 +79,13 @@
     <div id="columnchart_by_country" style="width: 200px; height: 200px; float:left;"></div>
 	<div id="export_piechart_by_country" style="width: 200px; height: 200px; float:left;"></div>
     <div id="export_columnchart_by_country" style="width: 200px; height: 200px; float:left;"></div>
+=======
+	<select id="statesListbox_by_country" multiple size="20"></select>
+	
+	<!-- US map -->
+	<div id="USchart_div" style="width: 600px; height: 300px;"></div>
+
+>>>>>>> Anthony's-Branch
     <!-- display results for selected HS6 code -->
     <div id='selected_HS_Code'></div>
 

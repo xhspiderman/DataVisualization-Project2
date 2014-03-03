@@ -257,6 +257,7 @@
         selectedValues = $("#First_Level_Selection").multipleSelect("getSelects");
         var selectedTexts = $("#First_Level_Selection").multipleSelect("getSelects", "text");
         HS6_Code_Update()
+<<<<<<< HEAD
         populateResultsTable_by_commody()
     };
 
@@ -500,3 +501,41 @@ function drawColumnChart_by_country(str, ImorEx) {
         }
 	}
 }
+=======
+		var selectedStates = $("#statesListbox_by_commody").val() || [];
+		var HSarray = selected_HS6_Codes
+        populateResultsTable_by_commody(selectedStates, HSarray)
+    };
+    
+    // draw US map and query database when a state is clicked
+	function drawRegionsMap() {
+		var USMapStatesArray = [['City', 'Imports']];	
+		/*
+		//use when adding data to the states
+		stateAbbreviationsDB().each(function (stateParam) {
+			USMapStatesArray.push([stateParam.State, stateParam.Abbreviation]);
+		});
+		*/
+		var dataset = google.visualization.arrayToDataTable(USMapStatesArray);		
+		var USMapOptions = {};
+		USMapOptions['displayMode'] = 'regions';
+		USMapOptions['region'] = 'US';
+		USMapOptions['resolution'] = 'provinces';
+		var USChart = new google.visualization.GeoChart(document.getElementById('USchart_div'));
+		//gets US map's selection
+		function USMapHandler() {
+			var selectedState = USChart.getSelection()[0];
+			if (selectedState) {
+				//var selectedStateAbbr = selectedState.substring(selectedState.indexOf('-'));
+				console.log(selectedState);
+			}
+		};
+		google.visualization.events.addListener(USChart, 'regionClick', function(eventData) {
+			var selectedRegion = eventData.region;
+			var selectedRegionAbbr = selectedRegion.substring(selectedRegion.indexOf('-')+1);
+			var HSarray = selected_HS6_Codes;
+			populateResultsTable_by_commody(selectedRegionAbbr, HSarray);
+		});
+		USChart.draw(dataset, USMapOptions);
+	};
+>>>>>>> Anthony's-Branch
