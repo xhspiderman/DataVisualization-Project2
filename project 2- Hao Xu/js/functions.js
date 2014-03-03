@@ -257,7 +257,7 @@
         selectedValues = $("#First_Level_Selection").multipleSelect("getSelects");
         var selectedTexts = $("#First_Level_Selection").multipleSelect("getSelects", "text");
         HS6_Code_Update()
-<<<<<<< HEAD
+// <<<<<<< HEAD
         populateResultsTable_by_commody()
     };
 
@@ -334,6 +334,8 @@ function drawChart_by_country() {
     // console.log('before selection binding_by_country')
     google.visualization.events.addListener(chart_by_country, 'select', selectHandler_by_country);
     google.visualization.events.addListener(chart_by_country_export, 'select', selectHandler_by_country_export);
+    chart_by_country.setSelection([{row: 0}]);
+    chart_by_country_export.setSelection([{row: 0}]);
   }
 
 function selectHandler_by_commody() {
@@ -408,7 +410,6 @@ function selectHandler_by_country_export() {
 }
 
 function drawColumnChart_by_commody(str, ImorEx) {
-	console.log('come to draw')
 	if(ImorEx == 'import'){
         if(str){
         var result = $.grep(importResultsTable_by_commody, function(e){ return e.Description == str; });
@@ -450,8 +451,6 @@ function drawColumnChart_by_commody(str, ImorEx) {
         }else{//if the object is not chosen, do not do anything
         }
 	}
-
-
 }
 
 function drawColumnChart_by_country(str, ImorEx) {
@@ -459,6 +458,7 @@ function drawColumnChart_by_country(str, ImorEx) {
         if(str){
         	        console.log(importResultsTable_by_country)
         var result = $.grep(importResultsTable_by_country, function(e){ return e.Country == str; });
+        console.log(ImorEx)
         console.log(result)
       	var record = result;
 	  	var dataArray = []
@@ -481,6 +481,7 @@ function drawColumnChart_by_country(str, ImorEx) {
         if(str){
         	        console.log(str)
         var result = $.grep(exportResultsTable_by_country, function(e){ return e.Country == str; });
+        console.log(ImorEx)
         console.log(result)
       	var record = result;
 	  	var dataArray = []
@@ -501,41 +502,67 @@ function drawColumnChart_by_country(str, ImorEx) {
         }
 	}
 }
-=======
-		var selectedStates = $("#statesListbox_by_commody").val() || [];
-		var HSarray = selected_HS6_Codes
-        populateResultsTable_by_commody(selectedStates, HSarray)
-    };
+// =======
+		// var selectedStates = $("#statesListbox_by_commody").val() || [];
+		// var HSarray = selected_HS6_Codes
+  //       populateResultsTable_by_commody(selectedStates, HSarray)
+  //   };
     
-    // draw US map and query database when a state is clicked
-	function drawRegionsMap() {
-		var USMapStatesArray = [['City', 'Imports']];	
-		/*
-		//use when adding data to the states
-		stateAbbreviationsDB().each(function (stateParam) {
-			USMapStatesArray.push([stateParam.State, stateParam.Abbreviation]);
-		});
-		*/
-		var dataset = google.visualization.arrayToDataTable(USMapStatesArray);		
-		var USMapOptions = {};
-		USMapOptions['displayMode'] = 'regions';
-		USMapOptions['region'] = 'US';
-		USMapOptions['resolution'] = 'provinces';
-		var USChart = new google.visualization.GeoChart(document.getElementById('USchart_div'));
-		//gets US map's selection
-		function USMapHandler() {
-			var selectedState = USChart.getSelection()[0];
-			if (selectedState) {
-				//var selectedStateAbbr = selectedState.substring(selectedState.indexOf('-'));
-				console.log(selectedState);
-			}
-		};
-		google.visualization.events.addListener(USChart, 'regionClick', function(eventData) {
-			var selectedRegion = eventData.region;
-			var selectedRegionAbbr = selectedRegion.substring(selectedRegion.indexOf('-')+1);
-			var HSarray = selected_HS6_Codes;
-			populateResultsTable_by_commody(selectedRegionAbbr, HSarray);
-		});
-		USChart.draw(dataset, USMapOptions);
-	};
->>>>>>> Anthony's-Branch
+ //    // draw US map and query database when a state is clicked
+	// function drawRegionsMap_by_commody() {
+	// 	var USMapStatesArray = [['City', 'Imports']];	
+	// 	var dataset = google.visualization.arrayToDataTable(USMapStatesArray);		
+	// 	var USMapOptions = {};
+	// 	USMapOptions['displayMode'] = 'regions';
+	// 	USMapOptions['region'] = 'US';
+	// 	USMapOptions['resolution'] = 'provinces';
+	// 	USChart = new google.visualization.GeoChart(document.getElementById('USchart_div_by_commody'));
+	// 	//gets US map's selection
+
+	// 	// google.visualization.events.addListener(USChart, 'regionClick', function(eventData) {
+	// 	// 	var selectedRegion = eventData.region;
+	// 	// 	var selectedRegionAbbr = selectedRegion.substring(selectedRegion.indexOf('-')+1);
+	// 	// 	var HSarray = selected_HS6_Codes;
+	// 	// 	populateResultsTable_by_commody(selectedRegionAbbr, HSarray);
+
+	// 	// 	var selectedStates = $("#statesListbox_by_commody").val() || [];
+	// 	// 	var HSarray = selected_HS6_Codes
+ 
+	// 	// 	// importResultsTable_by_commody = searchDBByAbbr_HS(importTop25DB, selectedStates, HSarray);
+	// 	// 	// exportResultsTable_by_commody = searchDBByAbbr_HS(exportTop25DB, selectedStates, HSarray);
+	// 	// 	// drawChart_by_commody()
+	// 	// });
+	// 	USChart.draw(dataset, USMapOptions);
+	// };
+	// function USMapHandler() {
+	// 		var selectedState = USChart.getSelection()[0];
+	// 		if (selectedState) {
+	// 			//var selectedStateAbbr = selectedState.substring(selectedState.indexOf('-'));
+	// 			console.log(selectedState);
+	// 		}
+	// };
+	// function drawRegionsMap_by_country() {
+	// 	var USMapStatesArray = [['City', 'Imports']];	
+	// 	var dataset = google.visualization.arrayToDataTable(USMapStatesArray);		
+	// 	var USMapOptions = {};
+	// 	USMapOptions['displayMode'] = 'regions';
+	// 	USMapOptions['region'] = 'US';
+	// 	USMapOptions['resolution'] = 'provinces';
+	// 	USChart = new google.visualization.GeoChart(document.getElementById('USchart_div_by_country'));
+	// 	//gets US map's selection
+
+	// 	// google.visualization.events.addListener(USChart, 'regionClick', function(eventData) {
+	// 	// 	var selectedRegion = eventData.region;
+	// 	// 	var selectedRegionAbbr = selectedRegion.substring(selectedRegion.indexOf('-')+1);
+	// 	// 	var HSarray = selected_HS6_Codes;
+	// 	// 	populateResultsTable_by_commody(selectedRegionAbbr, HSarray);
+
+	// 	// 	// var selectedStates = $("#statesListbox_by_commody").val() || [];
+	// 	// 	// var HSarray = selected_HS6_Codes
+ 
+	// 	// 	// importResultsTable_by_commody = searchDBByAbbr_HS(importTop25DB, selectedStates, HSarray);
+	// 	// 	// exportResultsTable_by_commody = searchDBByAbbr_HS(exportTop25DB, selectedStates, HSarray);
+	// 	// 	// drawChart_by_commody()
+	// 	// });
+	// 	USChart.draw(dataset, USMapOptions);
+	// };
