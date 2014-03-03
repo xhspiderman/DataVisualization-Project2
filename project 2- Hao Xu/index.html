@@ -13,6 +13,7 @@
 		<script src="multiple-select-master/jquery-1.11.0.min.js"></script>
 		<script src="multiple-select-master/jquerymultipleselect.js"></script>
 		<script type="text/javascript" src="js/functions.js"></script>
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 		<link rel="stylesheet" type="text/css" href="multiple-select-master/multiple-select.css">
 
 		<script>
@@ -27,6 +28,10 @@
 		var importTop25DB = TAFFY(importTop25);
 		var exportTop25DB = TAFFY(exportTop25);
 		var stateAbbreviationsDB = TAFFY(StateAbbreviations);
+		var importResultsTable_by_country;
+		var exportResultsTable_by_country;
+		var importResultsTable_by_commody;
+		var exportResultsTable_by_commody;
 		</script>
 	</head>
 	<body>
@@ -35,12 +40,21 @@
 	<!--     <p id="eventResult">Here is the result of event.</p> -->
     <select multiple="multiple" id='First_Level_Selection' style='width:1100px;'></select>
     <input type="checkbox" id="includeDetail">include detail
-	<select id="statesListbox_by_commody" multiple size="20"></select>	
+	<select id="statesListbox_by_commody" multiple size="20" style='width:150px;'></select>
+	<script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart_by_commody);
+    </script>
+	<div id="piechart_by_commody" style="width: 500px; height: 300px; float:left;"></div>
     <hr>
 	<!-- multi-select box with all states -->
-	<select id="statesListbox_by_country" multiple size="20"></select>
+	<select id="statesListbox_by_country" multiple size="20" style='width:150px;'></select>
+	<script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart_by_country);
+    </script>
+	<div id="piechart_by_country" style="width: 500px; height: 300px; float:left;"></div>
 		
-
     <!-- display results for selected HS6 code -->
     <div id='selected_HS_Code'></div>
 
@@ -55,6 +69,9 @@
 	    selectionBox()// Prepare all data needed for initializing selectBox
 	    selectBoxInitialization(); // Initialize selectBox
     	populateListbox();
+    	// output default results
+    	populateResultsTable_by_country();
+    	populateResultsTable_by_commody();
 	    $("#includeDetail").click(function(){
 	    	$("#First_Level_Selection").html("");
             selectionBox();
@@ -62,20 +79,13 @@
 	    });
     	//populate results table when radio button or listbox changes
 		$("#statesListbox_by_country").change(function(){
-			var selectedStates = $("#statesListbox_by_country").val() || [];
-			var HSarray = selected_HS6_Codes
-			// console.log('selectedStates: ')
-			// console.log(selectedStates)
-			// console.log('HScode: ')
-			// console.log(HSarray)
-	        populateResultsTable_by_country(selectedStates, HSarray);
+
+
+	        populateResultsTable_by_country();
 		});
 		$("#statesListbox_by_commody").change(function(){
-			var selectedStates = $("#statesListbox_by_commody").val() || [];
-			var HSarray = selected_HS6_Codes
-			// console.log('selectedStates: '+selectedStates)
-			// console.log('HScode: '+HSarray)
-	        populateResultsTable_by_commody(selectedStates, HSarray)
+ 
+	        populateResultsTable_by_commody()
 		});
 
 	});

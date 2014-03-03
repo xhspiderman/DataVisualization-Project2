@@ -7,7 +7,7 @@
 		function searchDBByAbbr(searchDB, abbrs) {
 			var results = [];
 			results.push(searchDB({StateAbbr:abbrs}).get())
-			return searchDB({StateAbbr:abbrs}).get();
+			return searchDB({Rank:{"!is": 0}},{StateAbbr:abbrs}).get();
 		}
         // This version outputs the queryset with HS_codes
 		function searchDBByAbbr_HS(searchDB, abbrs,HSarray) {
@@ -15,9 +15,9 @@
 			var results = [];
 			results.push(searchDB({StateAbbr:abbrs},{HSCode:HSarray}).get())
 			if(HSarray.length==0){
-				return  searchDB({StateAbbr:abbrs}).get()
+				return  searchDB({HSCode:{"!is": 0}},{StateAbbr:abbrs}).get()
 			}
-			return searchDB({StateAbbr:abbrs},{HSCode:HSarray}).order("2012Value desc").get();
+			return searchDB({Rank:{"!is": 0}},{StateAbbr:abbrs},{HSCode:HSarray}).order("2012Value desc").get();
 		}
 
 /**
@@ -59,14 +59,17 @@
 			stateAbbreviationsDB().each(function (s) {
 				select.options[select.options.length] = new Option(s.State, s.Abbreviation);
 				select2.options[select2.options.length] = new Option(s.State, s.Abbreviation);
+				//Make the first option selected by default
+				$("#statesListbox_by_country")[0].selectedIndex = 0
+				$("#statesListbox_by_commody")[0].selectedIndex = 0
 			});
 		}
 
 		//populates the results table based on db and state selection
-		function populateResultsTable_by_country(selectedStates, HSarray) {
-            
-            var importResultsTable_by_country;
-			var exportResultsTable_by_country;
+		function populateResultsTable_by_country() {
+
+			var selectedStates = $("#statesListbox_by_country").val() || [];
+			var HSarray = selected_HS6_Codes
 
 			importResultsTable_by_country = searchDBByAbbr(importDestinationDB, selectedStates);
 			exportResultsTable_by_country = searchDBByAbbr(exportDestinationDB, selectedStates);
@@ -76,12 +79,13 @@
 			console.log(importResultsTable_by_country)
 			console.log('exportResultsTable_by_country: ')
 			console.log(exportResultsTable_by_country)
+			drawChart_by_country()
 		}
-		function populateResultsTable_by_commody(selectedStates, HSarray) {
-            
-            var importResultsTable_by_commody;
-			var exportResultsTable_by_commody;
+		function populateResultsTable_by_commody() {
 
+			var selectedStates = $("#statesListbox_by_commody").val() || [];
+			var HSarray = selected_HS6_Codes
+ 
 			importResultsTable_by_commody = searchDBByAbbr_HS(importTop25DB, selectedStates, HSarray);
 			exportResultsTable_by_commody = searchDBByAbbr_HS(exportTop25DB, selectedStates, HSarray);
 			console.log('selectedStates: ')
@@ -92,7 +96,7 @@
 			console.log(importResultsTable_by_commody)
 			console.log('exportResultsTable_by_commody: ')
 			console.log(exportResultsTable_by_commody)
-
+			drawChart_by_commody()
 		}
 
 
@@ -255,7 +259,49 @@
         selectedValues = $("#First_Level_Selection").multipleSelect("getSelects");
         var selectedTexts = $("#First_Level_Selection").multipleSelect("getSelects", "text");
         HS6_Code_Update()
-		var selectedStates = $("#statesListbox_by_commody").val() || [];
-		var HSarray = selected_HS6_Codes
-        populateResultsTable_by_commody(selectedStates, HSarray)
+        populateResultsTable_by_commody()
     };
+
+
+  function drawChart_by_commody() {
+
+  	var commodies = importResultsTable_by_commody;
+  	var dataArray = []
+  	dataArray.push(['Description','2012 Value'])
+  	for(var i =0; i<commodies.length; i++){
+  		var temp= [commodies[i]['Description'] , commodies[i]['2012Value']]
+  		dataArray.push(temp)
+  	}
+  	var country = commodies[0]['StateAbbr']
+  	console.log(country)
+
+    var data = google.visualization.arrayToDataTable(dataArray);
+
+    var options = {
+      title: 'ImportTop25'+' from '+country
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('piechart_by_commody'));
+    chart.draw(data, options);
+  }
+
+function drawChart_by_country() {
+
+  	var countries = importResultsTable_by_country;
+  	var dataArray = []
+  	dataArray.push(['Country','2012 Value'])
+  	for(var i =0; i<countries.length; i++){
+  		var temp= [countries[i]['Country'] , countries[i]['2012Value']]
+  		dataArray.push(temp)
+  	}
+  	var country = countries[0]['StateAbbr']
+
+    var data = google.visualization.arrayToDataTable(dataArray);
+
+    var options = {
+      title: 'Import Trading Partners'+' from '+country
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('piechart_by_country'));
+    chart.draw(data, options);
+  }
