@@ -32,6 +32,10 @@
 		var exportResultsTable_by_country;
 		var importResultsTable_by_commody;
 		var exportResultsTable_by_commody;
+		var chart_by_country
+		var chart_by_commody
+		var data_by_country
+		var data_by_commody
 		</script>
 	</head>
 	<body>
@@ -43,18 +47,19 @@
 	<select id="statesListbox_by_commody" multiple size="20" style='width:150px;'></select>
 	<script type="text/javascript">
       google.load("visualization", "1", {packages:["corechart"]});
-      google.setOnLoadCallback(drawChart_by_commody);
+      // google.setOnLoadCallback(drawChart_by_commody);
     </script>
 	<div id="piechart_by_commody" style="width: 500px; height: 300px; float:left;"></div>
+	<div id="columnchart_by_commody" style="width: 500px; height: 300px; float:left;"></div>
     <hr>
 	<!-- multi-select box with all states -->
 	<select id="statesListbox_by_country" multiple size="20" style='width:150px;'></select>
 	<script type="text/javascript">
       google.load("visualization", "1", {packages:["corechart"]});
-      google.setOnLoadCallback(drawChart_by_country);
+      // google.setOnLoadCallback(drawChart_by_country);
     </script>
 	<div id="piechart_by_country" style="width: 500px; height: 300px; float:left;"></div>
-		
+    <div id="columnchart_by_country" style="width: 500px; height: 300px; float:left;"></div>
     <!-- display results for selected HS6 code -->
     <div id='selected_HS_Code'></div>
 
@@ -79,7 +84,6 @@
 	    });
     	//populate results table when radio button or listbox changes
 		$("#statesListbox_by_country").change(function(){
-
 
 	        populateResultsTable_by_country();
 		});

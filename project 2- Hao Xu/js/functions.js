@@ -273,16 +273,17 @@
   		dataArray.push(temp)
   	}
   	var country = commodies[0]['StateAbbr']
-  	console.log(country)
 
-    var data = google.visualization.arrayToDataTable(dataArray);
+    data_by_commody = google.visualization.arrayToDataTable(dataArray);
 
     var options = {
       title: 'ImportTop25'+' from '+country
     };
 
-    var chart = new google.visualization.PieChart(document.getElementById('piechart_by_commody'));
-    chart.draw(data, options);
+    chart_by_commody = new google.visualization.PieChart(document.getElementById('piechart_by_commody'));
+    chart_by_commody.draw(data_by_commody, options);
+     console.log('before selection binding_by_commody')
+    google.visualization.events.addListener(chart_by_commody, 'select', selectHandler_by_commody);
   }
 
 function drawChart_by_country() {
@@ -296,12 +297,101 @@ function drawChart_by_country() {
   	}
   	var country = countries[0]['StateAbbr']
 
-    var data = google.visualization.arrayToDataTable(dataArray);
+    data_by_country = google.visualization.arrayToDataTable(dataArray);
 
     var options = {
       title: 'Import Trading Partners'+' from '+country
     };
 
-    var chart = new google.visualization.PieChart(document.getElementById('piechart_by_country'));
-    chart.draw(data, options);
+    chart_by_country = new google.visualization.PieChart(document.getElementById('piechart_by_country'));
+    chart_by_country.draw(data_by_country, options);
+    console.log('before selection binding_by_country')
+    google.visualization.events.addListener(chart_by_country, 'select', selectHandler_by_country);
   }
+
+function selectHandler_by_commody() {
+  var selection = chart_by_commody.getSelection();
+  // obtain selected value
+  var message = '';
+  for (var i = 0; i < selection.length; i++) {
+    var item = selection[i];
+    if (item.row != null && item.column != null) {
+      var str = data_by_commody.getFormattedValue(item.row, item.column);
+    } else if (item.row != null) {
+      var str = data_by_commody.getFormattedValue(item.row, 0);
+    } else if (item.column != null) {
+      var str = data_by_commody.getFormattedValue(0, item.column);
+    }
+  }
+  // console.log('You selected ' + str);
+  drawColumnChart_by_commody(str)
+}
+
+function selectHandler_by_country() {
+  var selection = chart_by_country.getSelection();
+  // obtain selected value
+  var message = '';
+  for (var i = 0; i < selection.length; i++) {
+    var item = selection[i];
+    if (item.row != null && item.column != null) {
+      var str = data_by_country.getFormattedValue(item.row, item.column);
+    } else if (item.row != null) {
+      var str = data_by_country.getFormattedValue(item.row, 0);
+    } else if (item.column != null) {
+      var str = data_by_country.getFormattedValue(0, item.column);
+    }
+  }
+  drawColumnChart_by_country(str)
+}
+
+function drawColumnChart_by_commody(str) {
+
+        if(str){
+        	        console.log(importResultsTable_by_commody)
+        var result = $.grep(importResultsTable_by_commody, function(e){ return e.Description == str; });
+        console.log(result)
+      	var record = result;
+	  	var dataArray = []
+	  	dataArray.push(['Year','Value'])
+  		dataArray.push(['2009' , result[0]['2009Value']])
+  		dataArray.push(['2010' , result[0]['2010Value']])
+  		dataArray.push(['2011' , result[0]['2011Value']])
+  		dataArray.push(['2012' , result[0]['2012Value']])
+  		var data = google.visualization.arrayToDataTable(dataArray);
+        var options = {
+          title: 'Annual Detail for '+str,
+          hAxis: {title: 'Year', titleTextStyle: {color: 'red'}}
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('columnchart_by_commody'));
+        chart.draw(data, options);
+        }else{//if the object is not chosen, do not do anything
+        }
+
+      }
+
+function drawColumnChart_by_country(str) {
+
+        if(str){
+        	        console.log(importResultsTable_by_country)
+        var result = $.grep(importResultsTable_by_country, function(e){ return e.Country == str; });
+        console.log(result)
+      	var record = result;
+	  	var dataArray = []
+	  	dataArray.push(['Year','Value'])
+  		dataArray.push(['2009' , result[0]['2009Value']])
+  		dataArray.push(['2010' , result[0]['2010Value']])
+  		dataArray.push(['2011' , result[0]['2011Value']])
+  		dataArray.push(['2012' , result[0]['2012Value']])
+  		var data = google.visualization.arrayToDataTable(dataArray);
+        var options = {
+          title: 'Annual Detail for '+str,
+          hAxis: {title: 'Year', titleTextStyle: {color: 'red'}}
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('columnchart_by_country'));
+        chart.draw(data, options);
+        }else{//if the object is not chosen, do not do anything
+        }
+
+      }
