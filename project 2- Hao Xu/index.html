@@ -12,7 +12,9 @@
 		<script type="text/javascript" src="js/stateAbbreviations.js"></script>
 		<script src="multiple-select-master/jquery-1.11.0.min.js"></script>
 		<script src="multiple-select-master/jquerymultipleselect.js"></script>
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 		<script type="text/javascript" src="js/functions.js"></script>
+		
 		<link rel="stylesheet" type="text/css" href="multiple-select-master/multiple-select.css">
 
 		<script>
@@ -27,6 +29,8 @@
 		var importTop25DB = TAFFY(importTop25);
 		var exportTop25DB = TAFFY(exportTop25);
 		var stateAbbreviationsDB = TAFFY(StateAbbreviations);
+		google.load('visualization', '1', {'packages': ['geochart']});
+		google.setOnLoadCallback(drawRegionsMap);		
 		</script>
 	</head>
 	<body>
@@ -39,7 +43,9 @@
     <hr>
 	<!-- multi-select box with all states -->
 	<select id="statesListbox_by_country" multiple size="20"></select>
-		
+	
+	<!-- US map -->
+	<div id="USchart_div" style="width: 600px; height: 300px;"></div>
 
     <!-- display results for selected HS6 code -->
     <div id='selected_HS_Code'></div>
