@@ -22,7 +22,7 @@
 		var HS4 = TAFFY( HS4_code );
 		var HS6 = TAFFY( HS6_code );
 		// when outputing hscode field, 01 will be 1, but when doing matching, we still need 01 to match it !!!!
-				//create databases from JSON data
+		//create databases from JSON data
 		var importDestinationDB = TAFFY(importDestination);
 		var exportDestinationDB = TAFFY(exportDestination);
 		var importTop25DB = TAFFY(importTop25);
@@ -34,8 +34,12 @@
 		var exportResultsTable_by_commody;
 		var chart_by_country
 		var chart_by_commody
+		var chart_by_country_export
+		var chart_by_commody_export
 		var data_by_country
 		var data_by_commody
+		var data_by_country_export
+		var data_by_commody_export
 		</script>
 	</head>
 	<body>
@@ -44,22 +48,26 @@
 	<!--     <p id="eventResult">Here is the result of event.</p> -->
     <select multiple="multiple" id='First_Level_Selection' style='width:1100px;'></select>
     <input type="checkbox" id="includeDetail">include detail
-	<select id="statesListbox_by_commody" multiple size="20" style='width:150px;'></select>
+	<select id="statesListbox_by_commody" multiple size="20" style='width:150px;height:200px;'></select>
 	<script type="text/javascript">
       google.load("visualization", "1", {packages:["corechart"]});
       // google.setOnLoadCallback(drawChart_by_commody);
     </script>
-	<div id="piechart_by_commody" style="width: 500px; height: 300px; float:left;"></div>
-	<div id="columnchart_by_commody" style="width: 500px; height: 300px; float:left;"></div>
+	<div id="piechart_by_commody" style="width: 200px; height: 200px; float:left;"></div>
+	<div id="columnchart_by_commody" style="width: 200px; height: 200px; float:left;"></div>
+	<div id="export_piechart_by_commody" style="width: 200px; height: 200px; float:left;"></div>
+	<div id="export_columnchart_by_commody" style="width: 200px; height: 200px; float:left;"></div>
     <hr>
 	<!-- multi-select box with all states -->
-	<select id="statesListbox_by_country" multiple size="20" style='width:150px;'></select>
+	<select id="statesListbox_by_country" multiple size="20" style='width:150px;height:200px;'></select>
 	<script type="text/javascript">
       google.load("visualization", "1", {packages:["corechart"]});
       // google.setOnLoadCallback(drawChart_by_country);
     </script>
-	<div id="piechart_by_country" style="width: 500px; height: 300px; float:left;"></div>
-    <div id="columnchart_by_country" style="width: 500px; height: 300px; float:left;"></div>
+	<div id="piechart_by_country" style="width: 200px; height: 200px; float:left;"></div>
+    <div id="columnchart_by_country" style="width: 200px; height: 200px; float:left;"></div>
+	<div id="export_piechart_by_country" style="width: 200px; height: 200px; float:left;"></div>
+    <div id="export_columnchart_by_country" style="width: 200px; height: 200px; float:left;"></div>
     <!-- display results for selected HS6 code -->
     <div id='selected_HS_Code'></div>
 
@@ -84,11 +92,9 @@
 	    });
     	//populate results table when radio button or listbox changes
 		$("#statesListbox_by_country").change(function(){
-
 	        populateResultsTable_by_country();
 		});
 		$("#statesListbox_by_commody").change(function(){
- 
 	        populateResultsTable_by_commody()
 		});
 

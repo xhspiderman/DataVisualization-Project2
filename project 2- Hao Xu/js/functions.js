@@ -187,14 +187,12 @@
 		    	if( HS2({hs_code:{regex: regex2gen(i)}}).first() ){
 		    		var includeDetail = document.getElementById("includeDetail").checked
 		    		if(includeDetail){
-                            
 			        		// derive HS6 code from HS2code
 			        		// Here we use temp to cache small array for better performance 
 			        		HS6({hs_code:{regex: regexgen(i, 4)}}).each(function (record,recordnumber) {
 			                    // selected_HS6_Codes.push({'hs_6': record.hs_code, 'description':record.description})
 			                    options = options + "<option value='" + record.hs_code +"'>"+record.hs_code+" : "+record.description+"</option> \n"
 			        		});
-	                    
 		    		}
 		    		else{
 		    			options = options + "<option value='" + i +"'>"+      HS2({hs_code:{regex: regex2gen(i)}}).first().description     +"</option> \n"
@@ -266,65 +264,113 @@
   function drawChart_by_commody() {
 
   	var commodies = importResultsTable_by_commody;
+  	var commodies_export = exportResultsTable_by_commody;
   	var dataArray = []
+  	var dataArray_export =[]
   	dataArray.push(['Description','2012 Value'])
+  	dataArray_export.push(['Description','2012 Value'])
   	for(var i =0; i<commodies.length; i++){
   		var temp= [commodies[i]['Description'] , commodies[i]['2012Value']]
   		dataArray.push(temp)
   	}
-  	var country = commodies[0]['StateAbbr']
+  	for(var i =0; i<commodies_export.length; i++){
+  		var temp= [commodies_export[i]['Description'] , commodies_export[i]['2012Value']]
+  		dataArray_export.push(temp)
+  	}
+  	var state = commodies[0]['StateAbbr']
 
     data_by_commody = google.visualization.arrayToDataTable(dataArray);
+    data_by_commody_export = google.visualization.arrayToDataTable(dataArray_export);
 
     var options = {
-      title: 'ImportTop25'+' from '+country
+      title: 'ImportTop25'+' to '+state
+    };
+    var options_export = {
+      title: 'ExportTop25'+' from '+state
     };
 
     chart_by_commody = new google.visualization.PieChart(document.getElementById('piechart_by_commody'));
+    chart_by_commody_export = new google.visualization.PieChart(document.getElementById('export_piechart_by_commody'));
     chart_by_commody.draw(data_by_commody, options);
-     console.log('before selection binding_by_commody')
+    chart_by_commody_export.draw(data_by_commody_export, options_export);
     google.visualization.events.addListener(chart_by_commody, 'select', selectHandler_by_commody);
+    google.visualization.events.addListener(chart_by_commody_export, 'select', selectHandler_by_commody_export);
   }
 
 function drawChart_by_country() {
 
   	var countries = importResultsTable_by_country;
+  	var countries_export = exportResultsTable_by_country;
   	var dataArray = []
+  	var dataArray_export = []
   	dataArray.push(['Country','2012 Value'])
+  	dataArray_export.push(['Country','2012 Value'])
   	for(var i =0; i<countries.length; i++){
   		var temp= [countries[i]['Country'] , countries[i]['2012Value']]
   		dataArray.push(temp)
   	}
-  	var country = countries[0]['StateAbbr']
+  	for(var i =0; i<countries_export.length; i++){
+  		var temp= [countries_export[i]['Country'] , countries_export[i]['2012Value']]
+  		dataArray_export.push(temp)
+  	}
+  	var state = countries[0]['StateAbbr']
 
     data_by_country = google.visualization.arrayToDataTable(dataArray);
+    data_by_country_export = google.visualization.arrayToDataTable(dataArray_export);
 
     var options = {
-      title: 'Import Trading Partners'+' from '+country
+      title: 'Import Trading Partners'+' to '+state
+    };
+
+    var options_export = {
+      title: 'Export Trading Partners'+' from '+state
     };
 
     chart_by_country = new google.visualization.PieChart(document.getElementById('piechart_by_country'));
+    chart_by_country_export = new google.visualization.PieChart(document.getElementById('export_piechart_by_country'));
     chart_by_country.draw(data_by_country, options);
-    console.log('before selection binding_by_country')
+    chart_by_country_export.draw(data_by_country_export, options_export);
+    // console.log('before selection binding_by_country')
     google.visualization.events.addListener(chart_by_country, 'select', selectHandler_by_country);
+    google.visualization.events.addListener(chart_by_country_export, 'select', selectHandler_by_country_export);
   }
 
 function selectHandler_by_commody() {
-  var selection = chart_by_commody.getSelection();
-  // obtain selected value
-  var message = '';
-  for (var i = 0; i < selection.length; i++) {
-    var item = selection[i];
-    if (item.row != null && item.column != null) {
-      var str = data_by_commody.getFormattedValue(item.row, item.column);
-    } else if (item.row != null) {
-      var str = data_by_commody.getFormattedValue(item.row, 0);
-    } else if (item.column != null) {
-      var str = data_by_commody.getFormattedValue(0, item.column);
-    }
-  }
-  // console.log('You selected ' + str);
-  drawColumnChart_by_commody(str)
+
+	var selection = chart_by_commody.getSelection();
+	var data_of_pie_Chart =  data_by_commody
+  	  var message = '';
+	  for (var i = 0; i < selection.length; i++) {
+	    var item = selection[i];
+	    if (item.row != null && item.column != null) {
+	      var str = data_of_pie_Chart.getFormattedValue(item.row, item.column);
+	    } else if (item.row != null) {
+	      var str = data_of_pie_Chart.getFormattedValue(item.row, 0);
+	    } else if (item.column != null) {
+	      var str = data_of_pie_Chart.getFormattedValue(0, item.column);
+	    }
+	  }
+	  //draw the column chart
+	  drawColumnChart_by_commody(str, 'import')
+}
+function selectHandler_by_commody_export() {
+
+  	  var selection = chart_by_commody_export.getSelection();
+	  var data_of_pie_Chart =  data_by_commody_export
+
+  	  var message = '';
+	  for (var i = 0; i < selection.length; i++) {
+	    var item = selection[i];
+	    if (item.row != null && item.column != null) {
+	      var str = data_of_pie_Chart.getFormattedValue(item.row, item.column);
+	    } else if (item.row != null) {
+	      var str = data_of_pie_Chart.getFormattedValue(item.row, 0);
+	    } else if (item.column != null) {
+	      var str = data_of_pie_Chart.getFormattedValue(0, item.column);
+	    }
+	  }
+	  //draw the column chart
+	  drawColumnChart_by_commody(str, 'export')
 }
 
 function selectHandler_by_country() {
@@ -341,15 +387,30 @@ function selectHandler_by_country() {
       var str = data_by_country.getFormattedValue(0, item.column);
     }
   }
-  drawColumnChart_by_country(str)
+  drawColumnChart_by_country(str, 'import')
+}
+function selectHandler_by_country_export() {
+  var selection = chart_by_country_export.getSelection();
+  // obtain selected value
+  var message = '';
+  for (var i = 0; i < selection.length; i++) {
+    var item = selection[i];
+    if (item.row != null && item.column != null) {
+      var str = data_by_country_export.getFormattedValue(item.row, item.column);
+    } else if (item.row != null) {
+      var str = data_by_country_export.getFormattedValue(item.row, 0);
+    } else if (item.column != null) {
+      var str = data_by_country_export.getFormattedValue(0, item.column);
+    }
+  }
+  drawColumnChart_by_country(str,'export')
 }
 
-function drawColumnChart_by_commody(str) {
-
+function drawColumnChart_by_commody(str, ImorEx) {
+	console.log('come to draw')
+	if(ImorEx == 'import'){
         if(str){
-        	        console.log(importResultsTable_by_commody)
         var result = $.grep(importResultsTable_by_commody, function(e){ return e.Description == str; });
-        console.log(result)
       	var record = result;
 	  	var dataArray = []
 	  	dataArray.push(['Year','Value'])
@@ -359,7 +420,7 @@ function drawColumnChart_by_commody(str) {
   		dataArray.push(['2012' , result[0]['2012Value']])
   		var data = google.visualization.arrayToDataTable(dataArray);
         var options = {
-          title: 'Annual Detail for '+str,
+          title: 'Import Detail of '+str,
           hAxis: {title: 'Year', titleTextStyle: {color: 'red'}}
         };
 
@@ -367,11 +428,33 @@ function drawColumnChart_by_commody(str) {
         chart.draw(data, options);
         }else{//if the object is not chosen, do not do anything
         }
+	}else{
+		if(str){
+        var result = $.grep(exportResultsTable_by_commody, function(e){ return e.Description == str; });
+      	var record = result;
+	  	var dataArray = []
+	  	dataArray.push(['Year','Value'])
+  		dataArray.push(['2009' , result[0]['2009Value']])
+  		dataArray.push(['2010' , result[0]['2010Value']])
+  		dataArray.push(['2011' , result[0]['2011Value']])
+  		dataArray.push(['2012' , result[0]['2012Value']])
+  		var data = google.visualization.arrayToDataTable(dataArray);
+        var options = {
+          title: 'Export Detail of '+str,
+          hAxis: {title: 'Year', titleTextStyle: {color: 'red'}}
+        };
 
-      }
+        var chart = new google.visualization.ColumnChart(document.getElementById('export_columnchart_by_commody'));
+        chart.draw(data, options);
+        }else{//if the object is not chosen, do not do anything
+        }
+	}
 
-function drawColumnChart_by_country(str) {
 
+}
+
+function drawColumnChart_by_country(str, ImorEx) {
+	if(ImorEx == 'import'){
         if(str){
         	        console.log(importResultsTable_by_country)
         var result = $.grep(importResultsTable_by_country, function(e){ return e.Country == str; });
@@ -385,7 +468,7 @@ function drawColumnChart_by_country(str) {
   		dataArray.push(['2012' , result[0]['2012Value']])
   		var data = google.visualization.arrayToDataTable(dataArray);
         var options = {
-          title: 'Annual Detail for '+str,
+          title: 'Import Detail for '+str,
           hAxis: {title: 'Year', titleTextStyle: {color: 'red'}}
         };
 
@@ -393,5 +476,27 @@ function drawColumnChart_by_country(str) {
         chart.draw(data, options);
         }else{//if the object is not chosen, do not do anything
         }
+	}else{
+        if(str){
+        	        console.log(str)
+        var result = $.grep(exportResultsTable_by_country, function(e){ return e.Country == str; });
+        console.log(result)
+      	var record = result;
+	  	var dataArray = []
+	  	dataArray.push(['Year','Value'])
+  		dataArray.push(['2009' , result[0]['2009Value']])
+  		dataArray.push(['2010' , result[0]['2010Value']])
+  		dataArray.push(['2011' , result[0]['2011Value']])
+  		dataArray.push(['2012' , result[0]['2012Value']])
+  		var data = google.visualization.arrayToDataTable(dataArray);
+        var options = {
+          title: 'Export Detail for '+str,
+          hAxis: {title: 'Year', titleTextStyle: {color: 'red'}}
+        };
 
-      }
+        var chart = new google.visualization.ColumnChart(document.getElementById('export_columnchart_by_country'));
+        chart.draw(data, options);
+        }else{//if the object is not chosen, do not do anything
+        }
+	}
+}
