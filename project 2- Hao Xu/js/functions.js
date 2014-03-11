@@ -278,7 +278,8 @@
   		var temp= [commodies_export[i]['Description'] , commodies_export[i]['2012Value']]
   		dataArray_export.push(temp)
   	}
-  	var state = commodies[0]['StateAbbr']
+  	// var state = commodies[0]['StateAbbr']
+    var state = $("#statesListbox_by_commody").val() || [];
 
     data_by_commody = google.visualization.arrayToDataTable(dataArray);
     data_by_commody_export = google.visualization.arrayToDataTable(dataArray_export);
@@ -314,7 +315,8 @@ function drawChart_by_country() {
   		var temp= [countries_export[i]['Country'] , countries_export[i]['2012Value']]
   		dataArray_export.push(temp)
   	}
-  	var state = countries[0]['StateAbbr']
+  	// var state = countries[0]['StateAbbr']
+  	var state = $("#statesListbox_by_country").val() || [];
 
     data_by_country = google.visualization.arrayToDataTable(dataArray);
     data_by_country_export = google.visualization.arrayToDataTable(dataArray_export);
