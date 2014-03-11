@@ -55,7 +55,7 @@
     <h1>My Favourite Things</h1>
     <p> </p>
 
-    <div class="row well">
+    <div class="row well" style='background-color:white;'>
     	<div class='col-xs-12'>
 			<h2> Import/Export Details of US <small>Selecting Commodies by HScodes</small></h2>
 		    <select multiple="multiple" id='First_Level_Selection' style='width:1200px;'></select>
@@ -67,7 +67,25 @@
 	      google.load("visualization", "1", {packages:["corechart"]});
 	    </script>
 		<div class='col-xs-4'>
-	        <div id="USchart_div_by_commody" style="height: 600px;padding-left:5px;"></div>
+			<div class='row'>
+			<div id="year_by_commody" class='col-xs-8 col-xs-offset-2' style="height: 50px;padding-left:5px;">
+				<div class="btn-group" data-toggle="buttons">
+				  <label class="btn btn-primary">
+				    <input type="radio" name="options" id="option1"> 2009
+				  </label>
+				  <label class="btn btn-primary">
+				    <input type="radio" name="options" id="option2"> 2010
+				  </label>
+				  <label class="btn btn-primary">
+				    <input type="radio" name="options" id="option3"> 2011
+				  </label>
+  				  <label class="btn btn-primary">
+				    <input type="radio" name="options" id="option4"> 2012
+				  </label>
+				</div>
+			</div>
+			</div>
+	        <div id="USchart_div_by_commody" class='col-xs-12' style="height: 550px;padding-left:5px;"></div>
 		</div>
     	<div class="col-xs-4" style='display:none;'>
 		    <select id="statesListbox_by_commody" multiple size="20" style='height:600px; padding-left:5px;'></select>
@@ -84,7 +102,7 @@
 		</div>
 	</div>
 
-	<div class='row well'>
+	<div class='row well' style='background-color:white;'>
     	<div class='col-xs-12'>
 			<h2> Import/Export Details of US with Different Countries</h2>
 		</div>
@@ -141,6 +159,8 @@
 		$("#statesListbox_by_commody").change(function(){
 	        populateResultsTable_by_commody()
 		});
+
+		$('.btn').button()
 
 	});
     </script>
