@@ -502,67 +502,45 @@ function drawColumnChart_by_country(str, ImorEx) {
         }
 	}
 }
-// =======
-		// var selectedStates = $("#statesListbox_by_commody").val() || [];
-		// var HSarray = selected_HS6_Codes
-  //       populateResultsTable_by_commody(selectedStates, HSarray)
-  //   };
     
- //    // draw US map and query database when a state is clicked
-	// function drawRegionsMap_by_commody() {
-	// 	var USMapStatesArray = [['City', 'Imports']];	
-	// 	var dataset = google.visualization.arrayToDataTable(USMapStatesArray);		
-	// 	var USMapOptions = {};
-	// 	USMapOptions['displayMode'] = 'regions';
-	// 	USMapOptions['region'] = 'US';
-	// 	USMapOptions['resolution'] = 'provinces';
-	// 	USChart = new google.visualization.GeoChart(document.getElementById('USchart_div_by_commody'));
-	// 	//gets US map's selection
-
-	// 	// google.visualization.events.addListener(USChart, 'regionClick', function(eventData) {
-	// 	// 	var selectedRegion = eventData.region;
-	// 	// 	var selectedRegionAbbr = selectedRegion.substring(selectedRegion.indexOf('-')+1);
-	// 	// 	var HSarray = selected_HS6_Codes;
-	// 	// 	populateResultsTable_by_commody(selectedRegionAbbr, HSarray);
-
-	// 	// 	var selectedStates = $("#statesListbox_by_commody").val() || [];
-	// 	// 	var HSarray = selected_HS6_Codes
- 
-	// 	// 	// importResultsTable_by_commody = searchDBByAbbr_HS(importTop25DB, selectedStates, HSarray);
-	// 	// 	// exportResultsTable_by_commody = searchDBByAbbr_HS(exportTop25DB, selectedStates, HSarray);
-	// 	// 	// drawChart_by_commody()
-	// 	// });
-	// 	USChart.draw(dataset, USMapOptions);
-	// };
-	// function USMapHandler() {
-	// 		var selectedState = USChart.getSelection()[0];
-	// 		if (selectedState) {
-	// 			//var selectedStateAbbr = selectedState.substring(selectedState.indexOf('-'));
-	// 			console.log(selectedState);
-	// 		}
-	// };
-	// function drawRegionsMap_by_country() {
-	// 	var USMapStatesArray = [['City', 'Imports']];	
-	// 	var dataset = google.visualization.arrayToDataTable(USMapStatesArray);		
-	// 	var USMapOptions = {};
-	// 	USMapOptions['displayMode'] = 'regions';
-	// 	USMapOptions['region'] = 'US';
-	// 	USMapOptions['resolution'] = 'provinces';
-	// 	USChart = new google.visualization.GeoChart(document.getElementById('USchart_div_by_country'));
-	// 	//gets US map's selection
-
-	// 	// google.visualization.events.addListener(USChart, 'regionClick', function(eventData) {
-	// 	// 	var selectedRegion = eventData.region;
-	// 	// 	var selectedRegionAbbr = selectedRegion.substring(selectedRegion.indexOf('-')+1);
-	// 	// 	var HSarray = selected_HS6_Codes;
-	// 	// 	populateResultsTable_by_commody(selectedRegionAbbr, HSarray);
-
-	// 	// 	// var selectedStates = $("#statesListbox_by_commody").val() || [];
-	// 	// 	// var HSarray = selected_HS6_Codes
- 
-	// 	// 	// importResultsTable_by_commody = searchDBByAbbr_HS(importTop25DB, selectedStates, HSarray);
-	// 	// 	// exportResultsTable_by_commody = searchDBByAbbr_HS(exportTop25DB, selectedStates, HSarray);
-	// 	// 	// drawChart_by_commody()
-	// 	// });
-	// 	USChart.draw(dataset, USMapOptions);
-	// };
+    // draw US map and query database when a state is clicked
+	function drawRegionsMap_by_commody() {
+		var USMapStatesArray = [['City', 'Imports']];	
+		var dataset = google.visualization.arrayToDataTable(USMapStatesArray);		
+		var USMapOptions = {};
+		USMapOptions['displayMode'] = 'regions';
+		USMapOptions['region'] = 'US';
+		USMapOptions['resolution'] = 'provinces';
+		USChart = new google.visualization.GeoChart(document.getElementById('USchart_div_by_commody'));
+		//gets US map's selection
+		google.visualization.events.addListener(USChart, 'regionClick', function(eventData) {
+			var selectedRegion = eventData.region;
+			var selectedRegionAbbr = selectedRegion.substring(selectedRegion.indexOf('-')+1);
+			var HSarray = selected_HS6_Codes;
+			console.log('draw US map:')
+			console.log(selectedRegionAbbr)
+			$("#statesListbox_by_commody").val(selectedRegionAbbr)
+			populateResultsTable_by_commody()
+		});
+		USChart.draw(dataset, USMapOptions);
+	};
+	function drawRegionsMap_by_country() {
+		var USMapStatesArray = [['City', 'Imports']];	
+		var dataset = google.visualization.arrayToDataTable(USMapStatesArray);		
+		var USMapOptions = {};
+		USMapOptions['displayMode'] = 'regions';
+		USMapOptions['region'] = 'US';
+		USMapOptions['resolution'] = 'provinces';
+		USChart = new google.visualization.GeoChart(document.getElementById('USchart_div_by_country'));
+		//gets US map's selection
+		google.visualization.events.addListener(USChart, 'regionClick', function(eventData) {
+			var selectedRegion = eventData.region;
+			var selectedRegionAbbr = selectedRegion.substring(selectedRegion.indexOf('-')+1);
+			var HSarray = selected_HS6_Codes;
+			console.log('draw US map:')
+			console.log(selectedRegionAbbr)
+			$("#statesListbox_by_country").val(selectedRegionAbbr)
+			populateResultsTable_by_country()
+		});
+		USChart.draw(dataset, USMapOptions);
+	};

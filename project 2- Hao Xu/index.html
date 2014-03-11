@@ -20,11 +20,6 @@
 		<script src="multiple-select-master/jquerymultipleselect.js"></script>
 		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 		<script type="text/javascript" src="js/functions.js"></script>
-<!-- <<<<<<< HEAD
-		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-======= -->
-		
-<!-- >>>>>>> Anthony's-Branch -->
 		<link rel="stylesheet" type="text/css" href="multiple-select-master/multiple-select.css">
 
 		<script>
@@ -39,7 +34,6 @@
 		var importTop25DB = TAFFY(importTop25);
 		var exportTop25DB = TAFFY(exportTop25);
 		var stateAbbreviationsDB = TAFFY(StateAbbreviations);
-// <<<<<<< HEAD
 		var importResultsTable_by_country;
 		var exportResultsTable_by_country;
 		var importResultsTable_by_commody;
@@ -54,16 +48,12 @@
 		var data_by_commody
 		var data_by_country_export
 		var data_by_commody_export
-// =======
-	
-// >>>>>>> Anthony's-Branch
+
 		</script>
 	</head>
 	<body>
     <h1>My Favourite Things</h1>
     <p> </p>
-    <!-- display results for selection -->
-	<!--     <p id="eventResult">Here is the result of event.</p> -->
 
     <div class="row well">
     	<div class='col-xs-12'>
@@ -72,20 +62,17 @@
 		    <input type="checkbox" id="includeDetail">include detail
 		    <p> </p>
 		</div>
-    	<div class="col-xs-2">
+		<script type="text/javascript">
+	      google.load('visualization', '1', {'packages': ['geochart']});
+	      google.load("visualization", "1", {packages:["corechart"]});
+	    </script>
+		<div class='col-xs-4'>
+	        <div id="USchart_div_by_commody" style="height: 600px;padding-left:5px;"></div>
+		</div>
+    	<div class="col-xs-4" style='display:none;'>
 		    <select id="statesListbox_by_commody" multiple size="20" style='height:600px; padding-left:5px;'></select>
 		</div>
-			<!-- US map -->
-		<script type="text/javascript">
-			// google.load('visualization', '1', {'packages': ['geochart']});
-			// google.setOnLoadCallback(drawRegionsMap_by_commody);
-	    </script>
-		<!-- <div id="USchart_div_by_commody" style="width: 200px; height: 400px;"></div> -->
-		<script type="text/javascript">
-	      google.load("visualization", "1", {packages:["corechart"]});
-	      // google.setOnLoadCallback(drawChart_by_commody);
-	    </script>
-	    <div class="col-xs-10">
+	    <div class="col-xs-8">
 	    	<div class='row'>
 				<div id="piechart_by_commody" class="col-xs-6" style='height:300px;'></div>
 				<div id="columnchart_by_commody" class="col-xs-6" style='height:300px;'></div>
@@ -96,25 +83,18 @@
 			</div>
 		</div>
 	</div>
-	<!-- multi-select box with all states -->
-<!-- <<<<<<< HEAD -->
-	<script type="text/javascript">
-		// google.load('visualization', '1', {'packages': ['geochart']});
-		// google.setOnLoadCallback(drawRegionsMap_by_country);
-    </script>
-	<!-- <div id="USchart_div_by_country" style="width: 200px; height: 400px;"></div> -->
+
 	<div class='row well'>
     	<div class='col-xs-12'>
 			<h2> Import/Export Details of US with Different Countries</h2>
 		</div>
-		<div class="col-xs-2">
+		<div class='col-xs-4'>
+	        <div id="USchart_div_by_country" style="height: 600px;padding-left:5px;"></div>
+		</div>
+		<div class="col-xs-4" style='display:none;'>
 			<select id="statesListbox_by_country" multiple size="20" style='height:600px; padding-left:5px;'></select>
 		</div>
-		<script type="text/javascript">
-	      google.load("visualization", "1", {packages:["corechart"]});
-	      // google.setOnLoadCallback(drawChart_by_country);
-	    </script>
-	    <div class='col-xs-10'>
+	    <div class='col-xs-8'>
 	    	<div class='row'>
 				<div id="piechart_by_country" class="col-xs-6" style='height:300px;'></div>
 			    <div id="columnchart_by_country" class="col-xs-6" style='height:300px;'></div>
@@ -125,10 +105,6 @@
 			</div>
 		</div>
 	</div>
-<!-- ======= -->
-<!-- 	<select id="statesListbox_by_country" multiple size="20"></select> -->
-
-<!-- >>>>>>> Anthony's-Branch -->
     <!-- display results for selected HS6 code -->
     <div id='selected_HS_Code'></div>
 
@@ -137,7 +113,6 @@
     var selectedValues = [];
     // used to store selected HS6 code
     var selected_HS6_Codes = [];
-
     
     $( document ).ready(function() {
 	    selectionBox()// Prepare all data needed for initializing selectBox
@@ -151,9 +126,8 @@
         drawColumnChart_by_commody("PASS VEH SPK-IG INT COM RCPR P ENG > 3000 CC",'export')
         drawColumnChart_by_country('Korea South', 'import')
         drawColumnChart_by_country(" Canada", 'export')
-
-
-
+        drawRegionsMap_by_commody()
+        drawRegionsMap_by_country()
 
 	    $("#includeDetail").click(function(){
 	    	$("#First_Level_Selection").html("");
