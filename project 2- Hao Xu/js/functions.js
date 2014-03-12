@@ -268,14 +268,16 @@
   	var commodies_export = exportResultsTable_by_commody;
   	var dataArray = []
   	var dataArray_export =[]
-  	dataArray.push(['Description','2012 Value'])
-  	dataArray_export.push(['Description','2012 Value'])
+  	var year = year_to_show
+
+  	dataArray.push(['Description',year+' value'])
+  	dataArray_export.push(['Description',year+' value'])
   	for(var i =0; i<commodies.length; i++){
-  		var temp= [commodies[i]['Description'] , commodies[i]['2012Value']]
+  		var temp= [commodies[i]['Description'] , commodies[i][year+'Value']]
   		dataArray.push(temp)
   	}
   	for(var i =0; i<commodies_export.length; i++){
-  		var temp= [commodies_export[i]['Description'] , commodies_export[i]['2012Value']]
+  		var temp= [commodies_export[i]['Description'] , commodies_export[i][year+'Value']]
   		dataArray_export.push(temp)
   	}
   	// var state = commodies[0]['StateAbbr']
@@ -283,12 +285,14 @@
 
     data_by_commody = google.visualization.arrayToDataTable(dataArray);
     data_by_commody_export = google.visualization.arrayToDataTable(dataArray_export);
+    data_by_commody.sort([{column: 1, desc: true}]);
+    data_by_commody_export.sort([{column: 1, desc: true}]);
 
     var options = {
-      title: 'ImportTop25'+' to '+state
+      title: 'ImportTop25'+' to '+state+' in '+year 
     };
     var options_export = {
-      title: 'ExportTop25'+' from '+state
+      title: 'ExportTop25'+' from '+state+' in '+year
     };
 
     chart_by_commody = new google.visualization.PieChart(document.getElementById('piechart_by_commody'));
@@ -305,14 +309,15 @@ function drawChart_by_country() {
   	var countries_export = exportResultsTable_by_country;
   	var dataArray = []
   	var dataArray_export = []
-  	dataArray.push(['Country','2012 Value'])
-  	dataArray_export.push(['Country','2012 Value'])
+  	var year = year_to_show_by_country
+  	dataArray.push(['Country', year+' Value'])
+  	dataArray_export.push(['Country',year+' Value'])
   	for(var i =0; i<countries.length; i++){
-  		var temp= [countries[i]['Country'] , countries[i]['2012Value']]
+  		var temp= [countries[i]['Country'] , countries[i][year+'Value']]
   		dataArray.push(temp)
   	}
   	for(var i =0; i<countries_export.length; i++){
-  		var temp= [countries_export[i]['Country'] , countries_export[i]['2012Value']]
+  		var temp= [countries_export[i]['Country'] , countries_export[i][year+'Value']]
   		dataArray_export.push(temp)
   	}
   	// var state = countries[0]['StateAbbr']
@@ -320,13 +325,15 @@ function drawChart_by_country() {
 
     data_by_country = google.visualization.arrayToDataTable(dataArray);
     data_by_country_export = google.visualization.arrayToDataTable(dataArray_export);
-
+    data_by_country.sort([{column: 1, desc: true}]);
+    data_by_country_export.sort([{column: 1, desc: true}]);
+     
     var options = {
-      title: 'Import Trading Partners'+' to '+state
+      title: 'Import Trading Partners'+' to '+state+' in '+year
     };
 
     var options_export = {
-      title: 'Export Trading Partners'+' from '+state
+      title: 'Export Trading Partners'+' from '+state+' in '+year
     };
 
     chart_by_country = new google.visualization.PieChart(document.getElementById('piechart_by_country'));

@@ -48,12 +48,16 @@
 		var data_by_commody
 		var data_by_country_export
 		var data_by_commody_export
+		var year_to_show = '2012'
+		var year_to_show_by_country = '2012'
+		var ie_to_show = 'import'
+		var ie_to_show_by_country = 'import'
 
 		</script>
 	</head>
 	<body>
-    <h1>My Favourite Things</h1>
-    <p> </p>
+     <h1>&nbsp;My Favourite Things</h1>
+    <br>
 
     <div class="row well" style='background-color:white;'>
     	<div class='col-xs-12'>
@@ -68,24 +72,34 @@
 	    </script>
 		<div class='col-xs-4'>
 			<div class='row'>
-			<div id="year_by_commody" class='col-xs-8 col-xs-offset-2' style="height: 50px;padding-left:5px;">
-				<div class="btn-group" data-toggle="buttons">
-				  <label class="btn btn-primary">
-				    <input type="radio" name="options" id="option1"> 2009
+			<div id="year_by_commody" class='col-xs-7 col-xs-offset-1' style="height: 50px;padding-left:5px;">
+				<div class="btn-group btn-group-sm" data-toggle="buttons">
+				  <label for="option1" class="btn btn-default">
+				    <input type="radio" name="yearoptions" id="option1">2009</input>
 				  </label>
-				  <label class="btn btn-primary">
-				    <input type="radio" name="options" id="option2"> 2010
+				  <label for="option2" class="btn btn-default">
+				    <input type="radio" name="yearoptions" id="option2">2010</input>
 				  </label>
-				  <label class="btn btn-primary">
-				    <input type="radio" name="options" id="option3"> 2011
+				  <label for="option3" class="btn btn-default">
+				    <input type="radio" name="yearoptions" id="option3">2011</input>
 				  </label>
-  				  <label class="btn btn-primary">
-				    <input type="radio" name="options" id="option4"> 2012
+  				  <label for="option4" class="btn btn-default active">
+				    <input type="radio" name="yearoptions" id="option4">2012</input>
+				  </label>
+				</div>
+			</div>
+			<div id="imorex" class='col-xs-4' style="height: 50px;padding-left:5px;">
+				<div class="btn-group btn-group-sm" data-toggle="buttons">
+				  <label for="ieoption1" class="btn btn-default active">
+				    <input type="radio" name="ieoptions" id="ieoption1">import</input>
+				  </label>
+				  <label for="ieoption2" class="btn btn-default">
+				    <input type="radio" name="ieoptions" id="ieoption2">export</input>
 				  </label>
 				</div>
 			</div>
 			</div>
-	        <div id="USchart_div_by_commody" class='col-xs-12' style="height: 550px;padding-left:5px;"></div>
+	        <div id="USchart_div_by_commody" class='col-xs-12' style="height: 250px;padding-left:5px;"></div>
 		</div>
     	<div class="col-xs-4" style='display:none;'>
 		    <select id="statesListbox_by_commody" multiple size="20" style='height:600px; padding-left:5px;'></select>
@@ -106,8 +120,38 @@
     	<div class='col-xs-12'>
 			<h2> Import/Export Details of US with Different Countries</h2>
 		</div>
+
 		<div class='col-xs-4'>
-	        <div id="USchart_div_by_country" style="height: 600px;padding-left:5px;"></div>
+			<div class='row'>
+			<div id="year_by_country" class='col-xs-7 col-xs-offset-1' style="height: 50px;padding-left:5px;">
+				<div class="btn-group btn-group-sm" data-toggle="buttons">
+				  <label for="option1_by_country" class="btn btn-default">
+				    <input type="radio" name="yearoptions_by_country" id="option1_by_country">2009</input>
+				  </label>
+				  <label for="option2_by_country" class="btn btn-default">
+				    <input type="radio" name="yearoptions_by_country" id="option2_by_country">2010</input>
+				  </label>
+				  <label for="option3_by_country" class="btn btn-default">
+				    <input type="radio" name="yearoptions_by_country" id="option3_by_country">2011</input>
+				  </label>
+  				  <label for="option4_by_country" class="btn btn-default active">
+				    <input type="radio" name="yearoptions_by_country" id="option4_by_country">2012</input>
+				  </label>
+				</div>
+			</div>
+			<div id="imorex_by_country" class='col-xs-4' style="height: 50px;padding-left:5px;">
+				<div class="btn-group btn-group-sm" data-toggle="buttons">
+				  <label for="ieoption1_by_country" class="btn btn-default active">
+				    <input type="radio" name="ieoptions_by_country" id="ieoption1_by_country">import</input>
+				  </label>
+				  <label for="ieoption2_by_country" class="btn btn-default">
+				    <input type="radio" name="ieoptions_by_country" id="ieoption2_by_country">export</input>
+				  </label>
+				</div>
+			</div>
+			</div>
+
+	        <div id="USchart_div_by_country" style="height: 250px;padding-left:5px;"></div>
 		</div>
 		<div class="col-xs-4" style='display:none;'>
 			<select id="statesListbox_by_country" multiple size="20" style='height:600px; padding-left:5px;'></select>
@@ -161,6 +205,36 @@
 		});
 
 		$('.btn').button()
+        $('#year_by_commody').change(function(){
+        	var temp = $("input[name='yearoptions']:checked")
+        	var $label = $("label[for='"+temp.attr("id")+"']")
+        	// console.log($label.text().replace(/\s+/g,""))
+        	year_to_show = $label.text().replace(/\s+/g,"")
+        	console.log(year_to_show)
+        	populateResultsTable_by_commody()
+        })
+        $('#imorex').change(function(){
+        	var temp = $("input[name='ieoptions']:checked")
+        	var $label = $("label[for='"+temp.attr("id")+"']")
+        	// console.log($label.text().replace(/\s+/g,""))
+        	ie_to_show = $label.text().replace(/\s+/g,"")
+        	console.log(ie_to_show)
+        })
+        $('#year_by_country').change(function(){
+        	var temp = $("input[name='yearoptions_by_country']:checked")
+        	var $label = $("label[for='"+temp.attr("id")+"']")
+        	// console.log($label.text().replace(/\s+/g,""))
+        	year_to_show_by_country = $label.text().replace(/\s+/g,"")
+        	console.log(year_to_show_by_country)
+        	populateResultsTable_by_country()
+        })
+        $('#imorex_by_country').change(function(){
+        	var temp = $("input[name='ieoptions_by_country']:checked")
+        	var $label = $("label[for='"+temp.attr("id")+"']")
+        	// console.log($label.text().replace(/\s+/g,""))
+        	ie_to_show_by_country = $label.text().replace(/\s+/g,"")
+        	console.log(ie_to_show_by_country)
+        })
 
 	});
     </script>
