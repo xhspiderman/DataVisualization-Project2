@@ -98,18 +98,20 @@
 				  </label>
 				</div>
 			</div>
+    		<div class='col-xs-11 col-xs-offset-1'>
+			    <!-- <select id="statesListbox_by_commody" multiple size="20" style='height:50px; padding-left:5px;'></select> -->
+			    <select id="statesListbox_by_commody" class='form-control'></select>
 			</div>
-	        <div id="USchart_div_by_commody" class='col-xs-12' style="height: 250px;padding-left:5px;"></div>
+			</div>
+	        <div id="USchart_div_by_commody" class='col-xs-12' style="height: 200px;padding-left:5px;"></div>
 		</div>
-    	<div class="col-xs-4" style='display:none;'>
-		    <select id="statesListbox_by_commody" multiple size="20" style='height:600px; padding-left:5px;'></select>
-		</div>
+
 	    <div class="col-xs-8">
-	    	<div class='row'>
+	    	<div class='row import_commody'  style=''>
 				<div id="piechart_by_commody" class="col-xs-6" style='height:300px;'></div>
 				<div id="columnchart_by_commody" class="col-xs-6" style='height:300px;'></div>
 			</div>
-			<div class='row'>
+			<div class='row export_commody' style=''>
 				<div id="export_piechart_by_commody" class="col-xs-6" style='height:300px;'></div>
 				<div id="export_columnchart_by_commody" class="col-xs-6" style='height:300px;'></div>
 			</div>
@@ -149,19 +151,21 @@
 				  </label>
 				</div>
 			</div>
+    		<div class='col-xs-11 col-xs-offset-1'>
+			    <select id="statesListbox_by_country" class='form-control'></select>
+                <!-- <select id="statesListbox_by_country" multiple size="20" style='height:600px; padding-left:5px;'></select> -->
+			</div>
 			</div>
 
 	        <div id="USchart_div_by_country" style="height: 250px;padding-left:5px;"></div>
 		</div>
-		<div class="col-xs-4" style='display:none;'>
-			<select id="statesListbox_by_country" multiple size="20" style='height:600px; padding-left:5px;'></select>
-		</div>
+
 	    <div class='col-xs-8'>
-	    	<div class='row'>
+	    	<div class='row import_country'>
 				<div id="piechart_by_country" class="col-xs-6" style='height:300px;'></div>
 			    <div id="columnchart_by_country" class="col-xs-6" style='height:300px;'></div>
 			</div>
-			<div class='row'>
+			<div class='row export_country'>
 				<div id="export_piechart_by_country" class="col-xs-6" style='height:300px;'></div>
 			    <div id="export_columnchart_by_country" class="col-xs-6" style='height:300px;'></div>
 			</div>
@@ -219,6 +223,10 @@
         	// console.log($label.text().replace(/\s+/g,""))
         	ie_to_show = $label.text().replace(/\s+/g,"")
         	console.log(ie_to_show)
+	        $("#piechart_by_commody").toggle('fast')
+	        $("#columnchart_by_commody").toggle('fast')
+	        $("#export_piechart_by_commody").toggle('fast')
+	        $("#export_columnchart_by_commody").toggle('fast')
         })
         $('#year_by_country').change(function(){
         	var temp = $("input[name='yearoptions_by_country']:checked")
@@ -234,7 +242,18 @@
         	// console.log($label.text().replace(/\s+/g,""))
         	ie_to_show_by_country = $label.text().replace(/\s+/g,"")
         	console.log(ie_to_show_by_country)
+	        $("#piechart_by_country").toggle('fast')
+	        $("#columnchart_by_country").toggle('fast')
+	        $("#export_piechart_by_country").toggle('fast')
+	        $("#export_columnchart_by_country").toggle('fast')
         })
+
+    // Set initial hide/show status for import and export
+        // $(".export_country").hide()
+        $("#export_piechart_by_commody").hide()
+        $("#export_columnchart_by_commody").hide()
+        $("#export_piechart_by_country").hide()
+        $("#export_columnchart_by_country").hide()
 
 	});
     </script>
