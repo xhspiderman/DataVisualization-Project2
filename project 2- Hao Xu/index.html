@@ -10,10 +10,10 @@
 		<script src="js/2digitHSCodes.js"></script>
 		<script src="js/4digitHSCodes.js"></script>
 		<script src="js/6digitHSCodes.js"></script>
-		<script type="text/javascript" src="js/importDestination.js"></script>
-		<script type="text/javascript" src="js/exportDestination.js"></script>
-		<script type="text/javascript" src="js/importTop25.js"></script>
-		<script type="text/javascript" src="js/exportTop25.js"></script>
+		<script type="text/javascript" src="js/updatedImportDestination.js"></script>
+		<script type="text/javascript" src="js/updatedExportDestination.js"></script>
+		<script type="text/javascript" src="js/updatedImportTop25.js"></script>
+		<script type="text/javascript" src="js/updatedExportTop25.js"></script>
 		<script type="text/javascript" src="js/stateAbbreviations.js"></script>
 		<script src="multiple-select-master/jquery-1.11.0.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
@@ -29,10 +29,14 @@
 		var HS6 = TAFFY( HS6_code );
 		// when outputing hscode field, 01 will be 1, but when doing matching, we still need 01 to match it !!!!
 		//create databases from JSON data
-		var importDestinationDB = TAFFY(importDestination);
-		var exportDestinationDB = TAFFY(exportDestination);
-		var importTop25DB = TAFFY(importTop25);
-		var exportTop25DB = TAFFY(exportTop25);
+		// var importDestinationDB = TAFFY(importDestination);
+		// var exportDestinationDB = TAFFY(exportDestination);
+		// var importTop25DB = TAFFY(importTop25);
+		// var exportTop25DB = TAFFY(exportTop25);
+		var importDestinationDB = TAFFY(updatedImportDestination);
+		var exportDestinationDB = TAFFY(updatedExportDestination);
+		var importTop25DB = TAFFY(updatedImportTop25);
+		var exportTop25DB = TAFFY(updatedExportTop25);
 		var stateAbbreviationsDB = TAFFY(StateAbbreviations);
 		var importResultsTable_by_country;
 		var exportResultsTable_by_country;
@@ -48,8 +52,8 @@
 		var data_by_commody
 		var data_by_country_export
 		var data_by_commody_export
-		var year_to_show = '2012'
-		var year_to_show_by_country = '2012'
+		var year_to_show = '2013'
+		var year_to_show_by_country = '2013'
 		var ie_to_show = 'import'
 		var ie_to_show_by_country = 'import'
 
@@ -75,16 +79,16 @@
 			<div id="year_by_commody" class='col-xs-7 col-xs-offset-1' style="height: 50px;padding-left:5px;">
 				<div class="btn-group btn-group-sm" data-toggle="buttons">
 				  <label for="option1" class="btn btn-default">
-				    <input type="radio" name="yearoptions" id="option1">2009</input>
+				    <input type="radio" name="yearoptions" id="option1">2010</input>
 				  </label>
 				  <label for="option2" class="btn btn-default">
-				    <input type="radio" name="yearoptions" id="option2">2010</input>
+				    <input type="radio" name="yearoptions" id="option2">2011</input>
 				  </label>
 				  <label for="option3" class="btn btn-default">
-				    <input type="radio" name="yearoptions" id="option3">2011</input>
+				    <input type="radio" name="yearoptions" id="option3">2012</input>
 				  </label>
   				  <label for="option4" class="btn btn-default active">
-				    <input type="radio" name="yearoptions" id="option4">2012</input>
+				    <input type="radio" name="yearoptions" id="option4">2013</input>
 				  </label>
 				</div>
 			</div>
@@ -128,16 +132,16 @@
 			<div id="year_by_country" class='col-xs-7 col-xs-offset-1' style="height: 50px;padding-left:5px;">
 				<div class="btn-group btn-group-sm" data-toggle="buttons">
 				  <label for="option1_by_country" class="btn btn-default">
-				    <input type="radio" name="yearoptions_by_country" id="option1_by_country">2009</input>
+				    <input type="radio" name="yearoptions_by_country" id="option1_by_country">2010</input>
 				  </label>
 				  <label for="option2_by_country" class="btn btn-default">
-				    <input type="radio" name="yearoptions_by_country" id="option2_by_country">2010</input>
+				    <input type="radio" name="yearoptions_by_country" id="option2_by_country">2011</input>
 				  </label>
 				  <label for="option3_by_country" class="btn btn-default">
-				    <input type="radio" name="yearoptions_by_country" id="option3_by_country">2011</input>
+				    <input type="radio" name="yearoptions_by_country" id="option3_by_country">2012</input>
 				  </label>
   				  <label for="option4_by_country" class="btn btn-default active">
-				    <input type="radio" name="yearoptions_by_country" id="option4_by_country">2012</input>
+				    <input type="radio" name="yearoptions_by_country" id="option4_by_country">2013</input>
 				  </label>
 				</div>
 			</div>
@@ -188,14 +192,14 @@
     	populateResultsTable_by_country();
     	populateResultsTable_by_commody();
     	// initial display of column chart
-        drawColumnChart_by_commody("SMFD IRN/NAL STL LT .25 PCT CRB RECT CS WID 2",'import')
-        drawColumnChart_by_commody("PASS VEH SPK-IG INT COM RCPR P ENG > 3000 CC",'export')
-        drawColumnChart_by_country('Korea South', 'import')
-        drawColumnChart_by_country(" Canada", 'export')
+        drawColumnChart_by_commody("Smfd Irn/Nal Stl Lt .25 Pct Crb Rect Cs Wid 2",'import')
+        drawColumnChart_by_commody("Pass Veh Spk-Ig Int Com Rcpr P Eng > 3000 Cc",'export')
+        drawColumnChart_by_country('Canada', 'import')
+        drawColumnChart_by_country("Canada", 'export')
         drawRegionsMap_by_commody()
         drawRegionsMap_by_country()
 
-        top25(exportTop25DB, '2012Value');
+        top25(exportTop25DB, '2013Value');
 	    $("#includeDetail").click(function(){
 	    	$("#First_Level_Selection").html("");
             selectionBox();

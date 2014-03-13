@@ -15,9 +15,9 @@
 			var results = [];
 			results.push(searchDB({StateAbbr:abbrs},{HSCode:HSarray}).get())
 			if(HSarray.length==0){
-				return  searchDB({HSCode:{"!is": 0}},{StateAbbr:abbrs}).get()
+				return  searchDB({Rank:{"!is": 0}},{StateAbbr:abbrs}).get()
 			}
-			return searchDB({Rank:{"!is": 0}},{StateAbbr:abbrs},{HSCode:HSarray}).order("2012Value desc").get();
+			return searchDB({Rank:{"!is": 0}},{StateAbbr:abbrs},{HSCode:HSarray}).order("2013Value desc").get();
 		}
 
 /**
@@ -469,10 +469,10 @@ function drawColumnChart_by_commody(str, ImorEx) {
       	var record = result;
 	  	var dataArray = []
 	  	dataArray.push(['Year','Value'])
-  		dataArray.push(['2009' , result[0]['2009Value']])
   		dataArray.push(['2010' , result[0]['2010Value']])
   		dataArray.push(['2011' , result[0]['2011Value']])
   		dataArray.push(['2012' , result[0]['2012Value']])
+  		dataArray.push(['2013' , result[0]['2013Value']])
   		var data = google.visualization.arrayToDataTable(dataArray);
         var options = {
           title: 'Import Detail of '+str,
@@ -490,10 +490,10 @@ function drawColumnChart_by_commody(str, ImorEx) {
       	var record = result;
 	  	var dataArray = []
 	  	dataArray.push(['Year','Value'])
-  		dataArray.push(['2009' , result[0]['2009Value']])
   		dataArray.push(['2010' , result[0]['2010Value']])
   		dataArray.push(['2011' , result[0]['2011Value']])
   		dataArray.push(['2012' , result[0]['2012Value']])
+  		dataArray.push(['2013' , result[0]['2013Value']])
   		var data = google.visualization.arrayToDataTable(dataArray);
         var options = {
           title: 'Export Detail of '+str,
@@ -518,10 +518,10 @@ function drawColumnChart_by_country(str, ImorEx) {
       	var record = result;
 	  	var dataArray = []
 	  	dataArray.push(['Year','Value'])
-  		dataArray.push(['2009' , result[0]['2009Value']])
   		dataArray.push(['2010' , result[0]['2010Value']])
   		dataArray.push(['2011' , result[0]['2011Value']])
   		dataArray.push(['2012' , result[0]['2012Value']])
+  		dataArray.push(['2013' , result[0]['2013Value']])
   		var data = google.visualization.arrayToDataTable(dataArray);
         var options = {
           title: 'Import Detail from '+str,
@@ -542,10 +542,10 @@ function drawColumnChart_by_country(str, ImorEx) {
       	var record = result;
 	  	var dataArray = []
 	  	dataArray.push(['Year','Value'])
-  		dataArray.push(['2009' , result[0]['2009Value']])
   		dataArray.push(['2010' , result[0]['2010Value']])
   		dataArray.push(['2011' , result[0]['2011Value']])
   		dataArray.push(['2012' , result[0]['2012Value']])
+  		dataArray.push(['2013' , result[0]['2013Value']])
   		var data = google.visualization.arrayToDataTable(dataArray);
         var options = {
           title: 'Export Detail to '+str,
