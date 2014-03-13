@@ -25,30 +25,25 @@
 		 * @param numberOfResults {Number} Number of top results to be returned
 		 * @return results[i=number of abbrs][j=number of results for each abbr]
 		 */
-		function topUSExports(numberOfResults) {
-			var results = [];
+		function top25(db, sortby) {
+			var searchParam = sortby;
+			var searchDB = db;
 			var exportSums = [];
-			var distinctHSCodes = exportTop25DB().distinct("HSCode");
-			// console.log(distinctHSCodes);
-			/*
+			var distinctHSCodes = searchDB().distinct("HSCode");
 			for (i=0; i<distinctHSCodes.length; i++) {
 				var exportSumsKey = distinctHSCodes[i];
-				//exportSums.push({distinctHSCodes[i]:exportTop25DB().filter({HSCode:distinctHSCodes[i]}).sum("2012Value")})
-				exportSums[exportSumsKey] = exportTop25DB().filter({HSCode:distinctHSCodes[i]}).sum("2012Value");
+				if (exportSumsKey != 0) {
+					exportSums.push({
+						hs: exportSumsKey, 
+						desc: searchDB({HSCode:exportSumsKey}).first().Description, 
+						val: searchDB().filter({HSCode:exportSumsKey}).sum(searchParam)
+					});
+				}			
 			}
-			var biggestExp = 0;
-					for (var sumkey in exportSums) {
-						if (exportSums.hasOwnProperty(sumkey)) {
-							if ((exportSums[sumkey]>biggestExp) && sumkey!=0) {
-								biggestExp = exportSums[sumkey];
-								
-							}
-						}
-					}	
-			console.log(biggestExp)
-			console.log(exportSums);
-			return exportSums;
-			*/
+			exportSums.sort(function(a,b) { return parseFloat(b.val) - parseFloat(a.val) } );
+			var top25results = exportSums.slice(0,25);
+			console.log(top25results);
+			return top25results;
 		}
 /**
 		 * populate multi-select listbox with all states
