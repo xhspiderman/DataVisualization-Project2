@@ -19,6 +19,22 @@
 			}
 			return searchDB({Rank:{"!is": 0}},{StateAbbr:abbrs},{HSCode:HSarray}).order("2013Value desc").get();
 		}
+        //This function provide search DB by (commody description) str
+		function searchDBByDes(searchDB, str) {
+			var results = [];
+			results.push(searchDB({Description:str}).get())
+			return searchDB({Rank:{"!is": 0}},{Description:str}).get();
+		}
+        //This function provide search DB by (trading country) str
+		function searchDBByCon(searchDB, str) {
+			var results = [];
+			results.push(searchDB({Country:str}).get())
+			return searchDB({Rank:{"!is": 0}},{Country:str}).get();
+		}
+
+		function FullStateByAbbr(abbr){
+			return stateAbbreviationsDB({Abbreviation:{is:abbr}}).first().State
+		}
 
 /**
 		 * search exportTop25DB for the top US exports
@@ -301,10 +317,9 @@
     	chart_by_commody = new google.visualization.PieChart(document.getElementById('piechart_by_commody'));
     	chart_by_commody.draw(data_by_commody, options);
     }
-    console.log('div display:'+$("#export_piechart_by_commody").css('display'))
 
     if($("#export_piechart_by_commody").css('display')==='none'){
-    	console.log('success')
+
     	$("#export_piechart_by_commody").css('display','block')
     	chart_by_commody_export = new google.visualization.PieChart(document.getElementById('export_piechart_by_commody'));
     	chart_by_commody_export.draw(data_by_commody_export, options_export);
@@ -368,10 +383,9 @@ function drawChart_by_country() {
     	chart_by_country = new google.visualization.PieChart(document.getElementById('piechart_by_country'));
     	chart_by_country.draw(data_by_country, options);
     }
-    console.log('div display:'+$("#export_piechart_by_country").css('display'))
 
     if($("#export_piechart_by_country").css('display')==='none'){
-    	console.log('success')
+
     	$("#export_piechart_by_country").css('display','block')
     	chart_by_country_export = new google.visualization.PieChart(document.getElementById('export_piechart_by_country'));
     	chart_by_country_export.draw(data_by_country_export, options_export);
@@ -408,6 +422,7 @@ function selectHandler_by_commody() {
 	  }
 	  //draw the column chart
 	  drawColumnChart_by_commody(str, 'import')
+	  drawTable_by_commody(str)
 }
 function selectHandler_by_commody_export() {
 
@@ -427,6 +442,7 @@ function selectHandler_by_commody_export() {
 	  }
 	  //draw the column chart
 	  drawColumnChart_by_commody(str, 'export')
+	  drawTable_by_commody(str)
 }
 
 function selectHandler_by_country() {
@@ -444,6 +460,7 @@ function selectHandler_by_country() {
     }
   }
   drawColumnChart_by_country(str, 'import')
+  drawTable_by_country(str)
 }
 function selectHandler_by_country_export() {
   var selection = chart_by_country_export.getSelection();
@@ -460,6 +477,7 @@ function selectHandler_by_country_export() {
     }
   }
   drawColumnChart_by_country(str,'export')
+  drawTable_by_country(str)
 }
 
 function drawColumnChart_by_commody(str, ImorEx) {
@@ -602,13 +620,70 @@ function drawColumnChart_by_country(str, ImorEx) {
 		USChart.draw(dataset, USMapOptions);
 	};
 
-    $.fn.invisible = function() {
-        return this.each(function() {
-            $(this).css("visibility", "hidden");
-        });
-    };
-    $.fn.visible = function() {
-        return this.each(function() {
-            $(this).css("visibility", "visible");
-        });
-    };
+function drawTable_by_commody(str) {
+
+        if(str){
+      	var record = searchDBByDes(importTop25DB, str);
+      	var export_record = searchDBByDes(exportTop25DB, str);
+	  	var dataArray = []
+	  	var export_dataArray = []
+	  	var options = {'page': 'enable'};
+	  	options['pageSize'] = 8;
+
+	  	dataArray.push(['State','2010 Value', '2011 Value','2012 Value','2013 Value'])
+	  	export_dataArray.push(['State','2010 Value', '2011 Value','2012 Value','2013 Value'])
+	  	for (var i=0; i<record.length; i++){
+	  		dataArray.push([FullStateByAbbr(record[i]["StateAbbr"]), record[i]['2010Value'],record[i]['2011Value'],record[i]['2012Value'],record[i]['2013Value']])
+	  	}
+	  	for (var i=0; i<export_record.length; i++){
+	  		export_dataArray.push([FullStateByAbbr(export_record[i]["StateAbbr"]), export_record[i]['2010Value'],export_record[i]['2011Value'],export_record[i]['2012Value'],export_record[i]['2013Value']])
+	  	}
+		// Create and populate the data table.
+		var data = google.visualization.arrayToDataTable(dataArray);
+		var export_data = google.visualization.arrayToDataTable(export_dataArray);
+        data.sort([{column: 4, desc: true}])
+        export_data.sort([{column: 4, desc: true}])
+		// Create and draw the visualization.
+		visualization = new google.visualization.Table(document.getElementById('import_table_by_commody'));
+		export_visualization = new google.visualization.Table(document.getElementById('export_table_by_commody'));
+		visualization.draw(data, options);
+        export_visualization.draw(export_data, options);
+        $('.import_table_title_by_commody').html("Import of <strong>"+str+"</strong> -- US Rank")
+        $('.export_table_title_by_commody').html("Export of <strong>"+str+"</strong> -- US Rank")
+        }else{//if the object is not chosen, do not do anything
+        }
+}
+
+function drawTable_by_country(str) {
+
+        if(str){
+      	var record = searchDBByCon(importDestinationDB, str);
+      	var export_record = searchDBByCon(exportDestinationDB, str);
+	  	var dataArray = []
+	  	var export_dataArray = []
+	  	var options = {'page': 'enable'};
+	  	options['pageSize'] = 8;
+
+	  	dataArray.push(['State','2010 Value', '2011 Value','2012 Value','2013 Value'])
+	  	export_dataArray.push(['State','2010 Value', '2011 Value','2012 Value','2013 Value'])
+	  	for (var i=0; i<record.length; i++){
+	  		dataArray.push([FullStateByAbbr(record[i]["StateAbbr"]), record[i]['2010Value'],record[i]['2011Value'],record[i]['2012Value'],record[i]['2013Value']])
+	  	}
+	  	for (var i=0; i<export_record.length; i++){
+	  		export_dataArray.push([FullStateByAbbr(export_record[i]["StateAbbr"]), export_record[i]['2010Value'],export_record[i]['2011Value'],export_record[i]['2012Value'],export_record[i]['2013Value']])
+	  	}
+		// Create and populate the data table.
+		var data = google.visualization.arrayToDataTable(dataArray);
+		var export_data = google.visualization.arrayToDataTable(export_dataArray);
+        data.sort([{column: 4, desc: true}])
+        export_data.sort([{column: 4, desc: true}])
+		// Create and draw the visualization.
+		visualization = new google.visualization.Table(document.getElementById('import_table_by_country'));
+		export_visualization = new google.visualization.Table(document.getElementById('export_table_by_country'));
+		visualization.draw(data, options);
+        export_visualization.draw(export_data, options);
+        $('.import_table_title_by_country').html("Import from <strong>"+str+"</strong> -- US Rank")
+        $('.export_table_title_by_country').html("Export to <strong>"+str+"</strong> -- US Rank")
+        }else{//if the object is not chosen, do not do anything
+        }
+}

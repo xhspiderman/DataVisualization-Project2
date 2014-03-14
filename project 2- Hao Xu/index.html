@@ -73,6 +73,7 @@
 		<script type="text/javascript">
 	      google.load('visualization', '1', {'packages': ['geochart']});
 	      google.load("visualization", "1", {packages:["corechart"]});
+	      google.load('visualization', '1', {packages:['table']});
 	    </script>
 		<div class='col-xs-4'>
 			<div class='row'>
@@ -103,7 +104,6 @@
 				</div>
 			</div>
     		<div class='col-xs-11 col-xs-offset-1'>
-			    <!-- <select id="statesListbox_by_commody" multiple size="20" style='height:50px; padding-left:5px;'></select> -->
 			    <select id="statesListbox_by_commody" class='form-control'></select>
 			</div>
 			</div>
@@ -118,6 +118,16 @@
 			<div class='row export_commody' style=''>
 				<div id="export_piechart_by_commody" class="col-xs-6" style='height:300px;'></div>
 				<div id="export_columnchart_by_commody" class="col-xs-6" style='height:300px;'></div>
+			</div>
+		</div>
+		<div class="col-xs-12">
+	    	<div class='col-xs-6'  >
+	    		<p class=" import_table_title_by_commody col-xs-12" style='margin-bottom:10px;'>Import of XX -- Rank</p>
+				<div id="import_table_by_commody" class="col-xs-12" style=''></div>
+			</div>
+			<div class='col-xs-6' >
+				<p class=" export_table_title_by_commody col-xs-12" style='margin-bottom:10px;'>Export of XX -- Rank</p>
+				<div id="export_table_by_commody" class="col-xs-12" style=''></div>
 			</div>
 		</div>
 	</div>
@@ -157,11 +167,10 @@
 			</div>
     		<div class='col-xs-11 col-xs-offset-1'>
 			    <select id="statesListbox_by_country" class='form-control'></select>
-                <!-- <select id="statesListbox_by_country" multiple size="20" style='height:600px; padding-left:5px;'></select> -->
 			</div>
 			</div>
 
-	        <div id="USchart_div_by_country" style="height: 250px;padding-left:5px;"></div>
+	        <div id="USchart_div_by_country" style="height: 200px;padding-left:5px;"></div>
 		</div>
 
 	    <div class='col-xs-8'>
@@ -172,6 +181,16 @@
 			<div class='row export_country'>
 				<div id="export_piechart_by_country" class="col-xs-6" style='height:300px;'></div>
 			    <div id="export_columnchart_by_country" class="col-xs-6" style='height:300px;'></div>
+			</div>
+		</div>
+		<div class="col-xs-12">
+	    	<div class='col-xs-6'  >
+	    		<p class=" import_table_title_by_country col-xs-12" style='margin-bottom:10px;'>Import from XX -- Rank</p>
+				<div id="import_table_by_country" class="col-xs-12" style=''></div>
+			</div>
+			<div class='col-xs-6' >
+				<p class=" export_table_title_by_country col-xs-12" style='margin-bottom:10px;'>Export to XX -- Rank</p>
+				<div id="export_table_by_country" class="col-xs-12" style=''></div>
 			</div>
 		</div>
 	</div>
@@ -196,9 +215,11 @@
         drawColumnChart_by_commody("Pass Veh Spk-Ig Int Com Rcpr P Eng > 3000 Cc",'export')
         drawColumnChart_by_country('Canada', 'import')
         drawColumnChart_by_country("Canada", 'export')
+        drawTable_by_commody("Instr & Appl F Medical Surgical Dental Vet, N")
+        drawTable_by_country("Canada")
         drawRegionsMap_by_commody()
         drawRegionsMap_by_country()
-
+        // console.log('ABBR TESR: '+ FullStateByAbbr('AL'))
         top25(exportTop25DB, '2013Value');
 	    $("#includeDetail").click(function(){
 	    	$("#First_Level_Selection").html("");
