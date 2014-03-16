@@ -57,6 +57,7 @@
 		var ie_to_show = 'import'
 		var ie_to_show_by_country = 'import'
 		var pt_to_show = 'PieChart'
+		var pt_to_show_by_country = 'PieChart'
 
 		</script>
 	</head>
@@ -191,13 +192,29 @@
 		</div>
 
 	    <div class='col-xs-8'>
+	    	<div class='row'  style=''>
+				<div id="PorT_by_country" class="col-xs-6" style='height:30px;'>
+					<div class="btn-group btn-group-sm" data-toggle="buttons">
+					  <label for="PToption1_by_country" class="btn btn-default active">
+					    <input type="radio" name="PToptions_by_country" id="PToption1_by_country">Pie Chart</input>
+					  </label>
+					  <label for="PToption2_by_country" class="btn btn-default">
+					    <input type="radio" name="PToptions_by_country" id="PToption2_by_country">Table</input>
+					  </label>
+					</div>
+				</div>
+			</div>
 	    	<div class='row import_country'>
 				<div id="piechart_by_country" class="col-xs-6" style='height:300px;'></div>
+				<div id="piechart_by_country_table" class="col-xs-6" style='height:300px;'></div>
 			    <div id="columnchart_by_country" class="col-xs-6" style='height:300px;'></div>
+			    <div id="columnchart_by_country_table" class="col-xs-6" style='height:300px;'></div>
 			</div>
 			<div class='row export_country'>
 				<div id="export_piechart_by_country" class="col-xs-6" style='height:300px;'></div>
+				<div id="export_piechart_by_country_table" class="col-xs-6" style='height:300px;'></div>
 			    <div id="export_columnchart_by_country" class="col-xs-6" style='height:300px;'></div>
+			    <div id="export_columnchart_by_country_table" class="col-xs-6" style='height:300px;'></div>
 			</div>
 		</div>
 		<div class="col-xs-12">
@@ -280,6 +297,7 @@
         	// console.log($label.text().replace(/\s+/g,""))
         	ie_to_show_by_country = $label.text().replace(/\s+/g,"")
         	console.log(ie_to_show_by_country)
+        	showGraphs_by_country(ie_to_show_by_country, pt_to_show_by_country)
 
         })
         $('#PorT').change(function(){
@@ -289,7 +307,14 @@
         	pt_to_show = $label.text().replace(/\s+/g,"")
         	console.log(pt_to_show)
         	showGraphs_by_commody(ie_to_show, pt_to_show)
-
+        })
+        $('#PorT_by_country').change(function(){
+        	var temp = $("input[name='PToptions_by_country']:checked")
+        	var $label = $("label[for='"+temp.attr("id")+"']")
+        	// console.log($label.text().replace(/\s+/g,""))
+        	pt_to_show_by_country = $label.text().replace(/\s+/g,"")
+        	console.log(pt_to_show_by_country)
+        	showGraphs_by_country(ie_to_show_by_country, pt_to_show_by_country)
         })
 
     // Set initial hide/show status for import and export
@@ -302,6 +327,11 @@
         $("#columnchart_by_commody_table").hide()
         $("#export_piechart_by_commody_table").hide()
         $("#export_columnchart_by_commody_table").hide()
+        $("#piechart_by_country_table").hide()
+        $("#columnchart_by_country_table").hide()
+        $("#export_piechart_by_country_table").hide()
+        $("#export_columnchart_by_country_table").hide()
+
 
 	});
     </script>
