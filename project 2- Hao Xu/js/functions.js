@@ -335,6 +335,33 @@
     // chart_by_commody_export.draw(data_by_commody_export, options_export);
     google.visualization.events.addListener(chart_by_commody, 'select', selectHandler_by_commody);
     google.visualization.events.addListener(chart_by_commody_export, 'select', selectHandler_by_commody_export);
+
+    ////////////////////////////////////////// Drawing for table of  piechart_by_commody_table export_piechart_by_commody_table
+	  	var table_options = {'page': 'enable'};
+	  	table_options['pageSize'] = 8;
+
+		// Create and draw the visualization.
+		
+	    if($('#piechart_by_commody_table').css('display')=='none'){
+	    	$('#piechart_by_commody_table').css('display','block')
+	    	visualization_table = new google.visualization.Table(document.getElementById('piechart_by_commody_table'));
+	    	visualization_table.draw(data_by_commody, table_options);
+	    	$('#piechart_by_commody_table').css('display','none')
+	    }else{
+			visualization_table = new google.visualization.Table(document.getElementById('piechart_by_commody_table'));
+	    	visualization_table.draw(data_by_commody, table_options);
+	    }
+	    if($('#export_piechart_by_commody_table').css('display')=='none'){
+	    	$('#export_piechart_by_commody_table').css('display','block')
+	    	export_visualization_table = new google.visualization.Table(document.getElementById('export_piechart_by_commody_table'));
+	    	export_visualization_table.draw(data_by_commody_export, table_options);
+	    	$('#export_piechart_by_commody_table').css('display','none')
+	    }else{
+			export_visualization_table = new google.visualization.Table(document.getElementById('export_piechart_by_commody_table'));
+	    	export_visualization_table.draw(data_by_commody_export, table_options);
+	    }
+		
+    //////////////////////////////////////////
   }
 
 function drawChart_by_country() {
@@ -500,6 +527,23 @@ function drawColumnChart_by_commody(str, ImorEx) {
 
         var chart = new google.visualization.ColumnChart(document.getElementById('columnchart_by_commody'));
         chart.draw(data, options);
+        ////////////////////////////////////////// Drawing for table of  columnchart_by_commody
+	  	var table_options = {'page': 'enable'};
+	  	table_options['pageSize'] = 8;
+
+		// Create and draw the visualization.
+		
+	    if($('#columnchart_by_commody_table').css('display')=='none'){
+	    	$('#columnchart_by_commody_table').css('display','block')
+	    	visualization_table = new google.visualization.Table(document.getElementById('columnchart_by_commody_table'));
+	    	visualization_table.draw(data, table_options);
+	    	$('#columnchart_by_commody_table').css('display','none')
+	    }else{
+			visualization_table = new google.visualization.Table(document.getElementById('columnchart_by_commody_table'));
+	    	visualization_table.draw(data, table_options);
+	    }
+		
+	    //////////////////////////////////////////
         }else{//if the object is not chosen, do not do anything
         }
 	}else{
@@ -521,6 +565,21 @@ function drawColumnChart_by_commody(str, ImorEx) {
 
         var chart = new google.visualization.ColumnChart(document.getElementById('export_columnchart_by_commody'));
         chart.draw(data, options);
+        ////////////////////////////////////////// Drawing for table of  columnchart_by_commody
+	  	var table_options = {'page': 'enable'};
+	  	table_options['pageSize'] = 8;
+
+		// Create and draw the visualization.
+	    if($('#export_columnchart_by_commody_table').css('display')=='none'){
+	    	$('#export_columnchart_by_commody_table').css('display','block')
+	    	visualization_table = new google.visualization.Table(document.getElementById('export_columnchart_by_commody_table'));
+	    	visualization_table.draw(data, table_options);
+	    	$('#export_columnchart_by_commody_table').css('display','none')
+	    }else{
+			visualization_table = new google.visualization.Table(document.getElementById('export_columnchart_by_commody_table'));
+	    	visualization_table.draw(data, table_options);
+	    }
+	    //////////////////////////////////////////
         }else{//if the object is not chosen, do not do anything
         }
 	}
@@ -687,3 +746,48 @@ function drawTable_by_country(str) {
         }else{//if the object is not chosen, do not do anything
         }
 }
+
+function showGraphs_by_commody(ie, pt){
+	if (ie==='import'){
+        $("#export_piechart_by_commody").hide()
+        $("#export_columnchart_by_commody").hide()
+        $("#export_piechart_by_commody_table").hide()
+        $("#export_columnchart_by_commody_table").hide()
+        if(pt==='PieChart'){
+        	console.log('new functions')
+	        $("#piechart_by_commody").show()
+	        $("#columnchart_by_commody").show()
+	        $("#piechart_by_commody_table").hide()
+	        $("#columnchart_by_commody_table").hide()
+        }else{
+	        $("#piechart_by_commody").hide()
+	        $("#columnchart_by_commody").hide()
+	        $("#piechart_by_commody_table").show()
+	        $("#columnchart_by_commody_table").show()
+        }
+
+	}else{
+        $("#piechart_by_commody").hide()
+        $("#columnchart_by_commody").hide()
+        $("#piechart_by_commody_table").hide()
+        $("#columnchart_by_commody_table").hide()
+        if(pt==='PieChart'){
+	        $("#export_piechart_by_commody").show()
+	        $("#export_columnchart_by_commody").show()
+	        $("#export_piechart_by_commody_table").hide()
+	        $("#export_columnchart_by_commody_table").hide()
+        }else{
+	        $("#export_piechart_by_commody").hide()
+	        $("#export_columnchart_by_commody").hide()
+	        $("#export_piechart_by_commody_table").show()
+	        $("#export_columnchart_by_commody_table").show()
+        }
+	}
+	}
+
+function showGraphs_by_country(ie, pt){
+
+}
+
+
+
