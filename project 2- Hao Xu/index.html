@@ -54,8 +54,10 @@
 		var data_by_commody_export
 		var year_to_show = '2013'
 		var year_to_show_by_country = '2013'
+		var year_to_show_top25 = '2013'
 		var ie_to_show = 'import'
 		var ie_to_show_by_country = 'import'
+		var ie_to_show_top25 = 'import'
 		var pt_to_show = 'PieChart'
 		var pt_to_show_by_country = 'PieChart'
 
@@ -64,6 +66,52 @@
 	<body>
      <h1>&nbsp;&nbsp;My Favourite Things</h1>
     <br>
+    <!-- Top 25 -->
+	<div class='row well' style='background-color:white;'>
+    	<div class='col-xs-12'>
+			<h2> Top 25 Import/Export in US ?</h2>
+		</div>
+
+		<div class='col-xs-5'>
+			<div class='row'>
+			<div id="year_top25" class='col-xs-5 col-xs-offset-1' style="height: 50px;padding-left:5px;">
+				<div class="btn-group btn-group-xs" data-toggle="buttons">
+				  <label for="option1_top25" class="btn btn-default">
+				    <input type="radio" name="yearoptions_top25" id="option1_top25">2010</input>
+				  </label>
+				  <label for="option2_top25" class="btn btn-default">
+				    <input type="radio" name="yearoptions_top25" id="option2_top25">2011</input>
+				  </label>
+				  <label for="option3_top25" class="btn btn-default">
+				    <input type="radio" name="yearoptions_top25" id="option3_top25">2012</input>
+				  </label>
+  				  <label for="option4_top25" class="btn btn-default active">
+				    <input type="radio" name="yearoptions_top25" id="option4_top25">2013</input>
+				  </label>
+				</div>
+			</div>
+			<div id="imorex_top25" class='col-xs-6' style="height: 50px;padding-left:5px;">
+				<div class="btn-group btn-group-xs" data-toggle="buttons">
+				  <label for="ieoption1_top25" class="btn btn-default active">
+				    <input type="radio" name="ieoptions_top25" id="ieoption1_top25">import</input>
+				  </label>
+				  <label for="ieoption2_top25" class="btn btn-default">
+				    <input type="radio" name="ieoptions_top25" id="ieoption2_top25">export</input>
+				  </label>
+				</div>
+			</div>
+			</div>
+
+	        <div id="top25_table" class="col-xs-12" style='height:530px;'>table</div>
+		</div>
+
+	    <div class='col-xs-7'>
+	    	<div class='row'>
+				<div id="piechart_top25" class="col-xs-12" style='height:640px;'>piechart</div>
+			</div>
+		</div>
+	</div>
+	<!-- Top 25 -->
 
     <div class="row well" style='background-color:white;'>
     	<div class='col-xs-12'>
@@ -251,9 +299,10 @@
         drawColumnChart_by_country("Canada", 'export')
         drawTable_by_commody("Instr & Appl F Medical Surgical Dental Vet, N")
         drawTable_by_country("Canada")
+        showGraphs_top25(ie_to_show_top25, year_to_show_top25)
         drawRegionsMap_by_commody()
         drawRegionsMap_by_country()
-        top25(exportTop25DB, '2013Value');
+        // top25(exportTop25DB, '2013Value');
 	    $("#includeDetail").click(function(){
 	    	$("#First_Level_Selection").html("");
             selectionBox();
@@ -272,48 +321,51 @@
         	var temp = $("input[name='yearoptions']:checked")
         	var $label = $("label[for='"+temp.attr("id")+"']")
         	year_to_show = $label.text().replace(/\s+/g,"")
-        	console.log(year_to_show)
         	populateResultsTable_by_commody()
         })
         $('#imorex').change(function(){
         	var temp = $("input[name='ieoptions']:checked")
         	var $label = $("label[for='"+temp.attr("id")+"']")
-        	// console.log($label.text().replace(/\s+/g,""))
         	ie_to_show = $label.text().replace(/\s+/g,"")
-        	console.log(ie_to_show)
         	showGraphs_by_commody(ie_to_show, pt_to_show)
-
         })
         $('#year_by_country').change(function(){
         	var temp = $("input[name='yearoptions_by_country']:checked")
         	var $label = $("label[for='"+temp.attr("id")+"']")
         	year_to_show_by_country = $label.text().replace(/\s+/g,"")
-        	console.log(year_to_show_by_country)
         	populateResultsTable_by_country()
+        })
+        $('#year_top25').change(function(){
+        	var temp = $("input[name='yearoptions_top25']:checked")
+        	var $label = $("label[for='"+temp.attr("id")+"']")
+        	year_to_show_top25 = $label.text().replace(/\s+/g,"")
+        	// console.log(year_to_show_top25)
+        	showGraphs_top25(ie_to_show_top25, year_to_show_top25)
+        })
+        $('#imorex_top25').change(function(){
+        	var temp = $("input[name='ieoptions_top25']:checked")
+        	var $label = $("label[for='"+temp.attr("id")+"']")
+        	ie_to_show_top25 = $label.text().replace(/\s+/g,"")
+        	// console.log(ie_to_show_top25)
+        	showGraphs_top25(ie_to_show_top25, year_to_show_top25)
         })
         $('#imorex_by_country').change(function(){
         	var temp = $("input[name='ieoptions_by_country']:checked")
         	var $label = $("label[for='"+temp.attr("id")+"']")
-        	// console.log($label.text().replace(/\s+/g,""))
         	ie_to_show_by_country = $label.text().replace(/\s+/g,"")
-        	console.log(ie_to_show_by_country)
         	showGraphs_by_country(ie_to_show_by_country, pt_to_show_by_country)
 
         })
         $('#PorT').change(function(){
         	var temp = $("input[name='PToptions']:checked")
         	var $label = $("label[for='"+temp.attr("id")+"']")
-        	// console.log($label.text().replace(/\s+/g,""))
         	pt_to_show = $label.text().replace(/\s+/g,"")
-        	console.log(pt_to_show)
         	showGraphs_by_commody(ie_to_show, pt_to_show)
         })
         $('#PorT_by_country').change(function(){
         	var temp = $("input[name='PToptions_by_country']:checked")
         	var $label = $("label[for='"+temp.attr("id")+"']")
-        	// console.log($label.text().replace(/\s+/g,""))
         	pt_to_show_by_country = $label.text().replace(/\s+/g,"")
-        	console.log(pt_to_show_by_country)
         	showGraphs_by_country(ie_to_show_by_country, pt_to_show_by_country)
         })
 
@@ -331,7 +383,6 @@
         $("#columnchart_by_country_table").hide()
         $("#export_piechart_by_country_table").hide()
         $("#export_columnchart_by_country_table").hide()
-
 
 	});
     </script>

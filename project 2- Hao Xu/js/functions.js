@@ -57,8 +57,8 @@
 				}			
 			}
 			exportSums.sort(function(a,b) { return parseFloat(b.val) - parseFloat(a.val) } );
-			var top25results = exportSums.slice(0,25);
-			console.log(top25results);
+			var top25results = exportSums.slice(0,26);
+			// console.log(top25results);
 			return top25results;
 		}
 /**
@@ -868,6 +868,66 @@ function showGraphs_by_country(ie, pt){
 	        $("#export_piechart_by_country_table").show()
 	        $("#export_columnchart_by_country_table").show()
         }
+	}
+}
+
+function showGraphs_top25(ie, year){
+	if (ie === 'import'){
+
+	var top25_commody = top25(importTop25DB, year+'Value');
+  	var dataArray = []
+  	dataArray.push(['Description',year+' value'])
+  	for(var i =1; i<top25_commody.length; i++){
+  		var temp= [top25_commody[i]['desc'] , Math.round(top25_commody[i]['val'])]
+  		dataArray.push(temp)
+  	}
+    data_top25 = google.visualization.arrayToDataTable(dataArray);
+
+    var options = {
+      title: 'Import Top25 in US'+ ' in '+year ,
+      chartArea:{left:5,top:19,width:"95%",height:"99%"},
+      is3D: true,
+      legend: 'none',
+    };
+
+	chart_top25 = new google.visualization.PieChart(document.getElementById('piechart_top25'));
+	chart_top25.draw(data_top25, options);
+    ////////////////////////////////////////// Drawing for table of  piechart_by_commody_table export_piechart_by_commody_table
+  	var table_options = {'page': 'enable'};
+  	table_options['pageSize'] = 18;
+  	table_options['showRowNumber'] = true
+	visualization_table = new google.visualization.Table(document.getElementById('top25_table'));
+	visualization_table.draw(data_top25, table_options);
+
+	}else{
+        console.log(top25(exportTop25DB, year+'Value'));
+
+		var top25_commody = top25(exportTop25DB, year+'Value');
+	  	var dataArray = []
+	  	dataArray.push(['Description',year+' value'])
+	  	for(var i =1; i<top25_commody.length; i++){
+	  		var temp= [top25_commody[i]['desc'] , Math.round(top25_commody[i]['val'])]
+	  		dataArray.push(temp)
+	  	}
+	    data_top25 = google.visualization.arrayToDataTable(dataArray);
+
+	    var options = {
+	      title: 'Export Top25 in US'+ ' in '+year ,
+	      chartArea:{left:5,top:19,width:"95%",height:"99%"},
+	      is3D: true,
+	      legend: 'none',
+	    };
+
+		chart_top25 = new google.visualization.PieChart(document.getElementById('piechart_top25'));
+		chart_top25.draw(data_top25, options);
+	    ////////////////////////////////////////// Drawing for table of  piechart_by_commody_table export_piechart_by_commody_table
+	  	var table_options = {'page': 'enable'};
+	  	table_options['pageSize'] = 18;
+	  	table_options['showRowNumber'] = true
+
+		visualization_table = new google.visualization.Table(document.getElementById('top25_table'));
+		visualization_table.draw(data_top25, table_options);
+
 	}
 }
 
