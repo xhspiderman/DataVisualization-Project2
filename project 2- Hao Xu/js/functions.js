@@ -91,6 +91,7 @@
 			console.log('exportResultsTable_by_country: ')
 			console.log(exportResultsTable_by_country)
 			drawChart_by_country()
+			drawWorldMap_by_country()
 		}
 		function populateResultsTable_by_commody() {
 
@@ -449,6 +450,95 @@ function drawChart_by_country() {
 		
     //////////////////////////////////////////
   }
+  
+ function drawWorldMap_by_country() {
+
+  	var countries = importResultsTable_by_country;
+  	var countries_export = exportResultsTable_by_country;
+  	var dataArray = []
+  	var dataArray_export = []
+  	var year = year_to_show_by_country
+  	dataArray.push(['Country', year+' Value'])
+  	dataArray_export.push(['Country',year+' Value'])
+  	for(var i =0; i<countries.length; i++){
+  		var temp= [countries[i]['Country'] , countries[i][year+'Value']]
+  		dataArray.push(temp)
+  	}
+  	for(var i =0; i<countries_export.length; i++){
+  		var temp= [countries_export[i]['Country'] , countries_export[i][year+'Value']]
+  		dataArray_export.push(temp)
+  	}
+  	// var state = countries[0]['StateAbbr']
+  	var state = $("#statesListbox_by_country").val() || [];
+
+    data_by_country = google.visualization.arrayToDataTable(dataArray);
+    data_by_country_export = google.visualization.arrayToDataTable(dataArray_export);
+    data_by_country.sort([{column: 1, desc: true}]);
+    data_by_country_export.sort([{column: 1, desc: true}]);
+
+    var options = {
+      title: 'Import Trading Partners'+' to '+state+' in '+year,
+      region: 'world',
+      legend: 'none',
+    };
+
+    var options_export = {
+      title: 'Export Trading Partners'+' from '+state+' in '+year,
+      region: 'world',
+      legend: 'none',
+    };
+
+    if($('#geochart_by_country').css('display')=='none'){
+    	$('#geochart_by_country').css('display','block')
+    	geochart_by_country = new google.visualization.GeoChart(document.getElementById('geochart_by_country'));
+    	geochart_by_country.draw(data_by_country, options);
+    	$('#geochart_by_country').css('display','none')
+    }else{
+    	geochart_by_country = new google.visualization.GeoChart(document.getElementById('geochart_by_country'));
+    	geochart_by_country.draw(data_by_country, options);
+    }
+
+    if($("#export_geochart_by_country").css('display')==='none'){
+    	$("#export_geochart_by_country").css('display','block')
+    	geochart_by_country_export = new google.visualization.GeoChart(document.getElementById('export_geochart_by_country'));
+    	geochart_by_country_export.draw(data_by_country_export, options_export);
+    	$("#export_geochart_by_country").css('display','none')
+    }else{
+    	geochart_by_country_export = new google.visualization.GeoChart(document.getElementById('export_geochart_by_country'));
+    	geochart_by_country_export.draw(data_by_country_export, options_export);
+    }
+
+    google.visualization.events.addListener(geochart_by_country, 'select', geochart_selectHandler_by_country);
+    google.visualization.events.addListener(geochart_by_country_export, 'select', geochart_selectHandler_by_country_export);
+    // chart_by_country.setSelection([{row: 0}]);
+    // chart_by_country_export.setSelection([{row: 0}]);
+    ////////////////////////////////////////// Drawing for table of  piechart_by_country_table export_piechart_by_country_table
+	  	var table_options = {'page': 'enable'};
+	  	table_options['pageSize'] = 8;
+
+		// Create and draw the visualization.
+		
+	    if($('#geochart_by_country_table').css('display')=='none'){
+	    	$('#geochart_by_country_table').css('display','block')
+	    	visualization_table = new google.visualization.Table(document.getElementById('geochart_by_country_table'));
+	    	visualization_table.draw(data_by_country, table_options);
+	    	$('#geochart_by_country_table').css('display','none')
+	    }else{
+			visualization_table = new google.visualization.Table(document.getElementById('geochart_by_country_table'));
+	    	visualization_table.draw(data_by_country, table_options);
+	    }
+	    if($('#export_geochart_by_country_table').css('display')=='none'){
+	    	$('#export_geochart_by_country_table').css('display','block')
+	    	export_visualization_table = new google.visualization.Table(document.getElementById('export_geochart_by_country_table'));
+	    	export_visualization_table.draw(data_by_country_export, table_options);
+	    	$('#export_geochart_by_country_table').css('display','none')
+	    }else{
+			export_visualization_table = new google.visualization.Table(document.getElementById('export_geochart_by_country_table'));
+	    	export_visualization_table.draw(data_by_country_export, table_options);
+	    }
+		
+    //////////////////////////////////////////
+  } 
 
 function selectHandler_by_commody() {
 
@@ -488,6 +578,41 @@ function selectHandler_by_commody_export() {
 	  //draw the column chart
 	  drawColumnChart_by_commody(str, 'export')
 	  drawTable_by_commody(str)
+}
+
+function geochart_selectHandler_by_country() {
+  var selection = chart_by_country.getSelection();
+  // obtain selected value
+  var message = '';
+  for (var i = 0; i < selection.length; i++) {
+    var item = selection[i];
+    if (item.row != null && item.column != null) {
+      var str = data_by_country.getFormattedValue(item.row, item.column);
+    } else if (item.row != null) {
+      var str = data_by_country.getFormattedValue(item.row, 0);
+    } else if (item.column != null) {
+      var str = data_by_country.getFormattedValue(0, item.column);
+    }
+  }
+  drawColumnChart_by_country(str, 'import')
+  drawTable_by_country(str)
+}
+function geochart_selectHandler_by_country_export() {
+  var selection = chart_by_country_export.getSelection();
+  // obtain selected value
+  var message = '';
+  for (var i = 0; i < selection.length; i++) {
+    var item = selection[i];
+    if (item.row != null && item.column != null) {
+      var str = data_by_country_export.getFormattedValue(item.row, item.column);
+    } else if (item.row != null) {
+      var str = data_by_country_export.getFormattedValue(item.row, 0);
+    } else if (item.column != null) {
+      var str = data_by_country_export.getFormattedValue(0, item.column);
+    }
+  }
+  drawColumnChart_by_country(str,'export')
+  drawTable_by_country(str)
 }
 
 function selectHandler_by_country() {
@@ -838,35 +963,60 @@ function showGraphs_by_country(ie, pt){
 	if (ie==='import'){
         $("#export_piechart_by_country").hide()
         $("#export_columnchart_by_country").hide()
+        $("#export_geochart_by_country").hide()
         $("#export_piechart_by_country_table").hide()
         $("#export_columnchart_by_country_table").hide()
+        $("#export_geochart_by_country_table").hide()
         if(pt==='PieChart'){
 	        $("#piechart_by_country").show()
 	        $("#columnchart_by_country").show()
+	        $("#geochart_by_country").hide()
 	        $("#piechart_by_country_table").hide()
 	        $("#columnchart_by_country_table").hide()
+	        $("#geochart_by_country_table").hide()
+        }else if(pt==='WorldMap'){
+	        $("#piechart_by_country").hide()
+	        $("#columnchart_by_country").hide()
+	        $("#geochart_by_country").show()
+	        $("#piechart_by_country_table").hide()
+	        $("#columnchart_by_country_table").hide()
+	        $("#geochart_by_country_table").show()
         }else{
 	        $("#piechart_by_country").hide()
 	        $("#columnchart_by_country").hide()
+	        $("#geochart_by_country").hide()
 	        $("#piechart_by_country_table").show()
 	        $("#columnchart_by_country_table").show()
+	        $("#geochart_by_country_table").hide()
         }
-
 	}else{
         $("#piechart_by_country").hide()
         $("#columnchart_by_country").hide()
+        $("#geochart_by_country").hide()
         $("#piechart_by_country_table").hide()
         $("#columnchart_by_country_table").hide()
+        $("#geochart_by_country_table").hide()
         if(pt==='PieChart'){
 	        $("#export_piechart_by_country").show()
 	        $("#export_columnchart_by_country").show()
+	        $("#export_geochart_by_country").hide()
 	        $("#export_piechart_by_country_table").hide()
 	        $("#export_columnchart_by_country_table").hide()
+	        $("#export_geochart_by_country_table").hide()
+        }else if(pt==='WorldMap'){
+	        $("#export_piechart_by_country").hide()
+	        $("#export_columnchart_by_country").hide()
+	        $("#export_geochart_by_country").show()
+	        $("#export_piechart_by_country_table").hide()
+	        $("#export_columnchart_by_country_table").hide()
+	        $("#export_geochart_by_country_table").show()
         }else{
 	        $("#export_piechart_by_country").hide()
 	        $("#export_columnchart_by_country").hide()
+	        $("#export_geochart_by_country").hide()
 	        $("#export_piechart_by_country_table").show()
 	        $("#export_columnchart_by_country_table").show()
+	        $("#export_geochart_by_country_table").hide()
         }
 	}
 }

@@ -249,6 +249,9 @@
 					  <label for="PToption2_by_country" class="btn btn-default">
 					    <input type="radio" name="PToptions_by_country" id="PToption2_by_country">Table</input>
 					  </label>
+					  <label for="PToption3_by_country" class="btn btn-default">
+					    <input type="radio" name="PToptions_by_country" id="PToption3_by_country">World Map</input>
+					  </label>
 					</div>
 				</div>
 			</div>
@@ -257,12 +260,16 @@
 				<div id="piechart_by_country_table" class="col-xs-6" style='height:300px;'></div>
 			    <div id="columnchart_by_country" class="col-xs-6" style='height:300px;'></div>
 			    <div id="columnchart_by_country_table" class="col-xs-6" style='height:300px;'></div>
+			    <div id="geochart_by_country" class="col-xs-6" style='height:300px;'></div>
+			    <div id="geochart_by_country_table" class="col-xs-6" style='height:300px;'></div>
 			</div>
 			<div class='row export_country'>
 				<div id="export_piechart_by_country" class="col-xs-6" style='height:300px;'></div>
 				<div id="export_piechart_by_country_table" class="col-xs-6" style='height:300px;'></div>
 			    <div id="export_columnchart_by_country" class="col-xs-6" style='height:300px;'></div>
 			    <div id="export_columnchart_by_country_table" class="col-xs-6" style='height:300px;'></div>
+			    <div id="export_geochart_by_country" class="col-xs-6" style='height:300px;'></div>
+			    <div id="export_geochart_by_country_table" class="col-xs-6" style='height:300px;'></div>
 			</div>
 		</div>
 		<div class="col-xs-12">
@@ -383,6 +390,10 @@
         $("#columnchart_by_country_table").hide()
         $("#export_piechart_by_country_table").hide()
         $("#export_columnchart_by_country_table").hide()
+        $("#geochart_by_country").hide()
+        $("#export_geochart_by_country").hide()        
+        $("#geochart_by_country_table").hide()
+        $("#export_geochart_by_country_table").hide()
 
 	});
     </script>
