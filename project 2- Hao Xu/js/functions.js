@@ -62,6 +62,30 @@
 			return top25results;
 		}
 /**
+		 * search a db for the top US export/import destinations
+		 * @param numberOfResults {Number} Number of top results to be returned
+		 * @return results[i=number of abbrs][j=number of results for each abbr]
+		 */
+		function top25Destination(db, sortby) {
+			var searchParam = sortby;
+			var searchDB = db;
+			var exportSums = [];
+			var distinctHSCodes = searchDB().distinct("StateAbbr");
+			for (i=0; i<distinctHSCodes.length; i++) {
+				var exportSumsKey = distinctHSCodes[i];
+				if (exportSumsKey != 0) {
+					exportSums.push({
+						abbr: exportSumsKey,
+						val: searchDB().filter({StateAbbr:exportSumsKey}).sum(searchParam)
+					});
+				}			
+			}
+			exportSums.sort(function(a,b) { return parseFloat(b.val) - parseFloat(a.val) } );
+			//var top25results = exportSums.slice(0,26);
+			// console.log(top25results);
+			return exportSums;
+		}		
+/**
 		 * populate multi-select listbox with all states
 		 */
 		function populateListbox() {
@@ -814,7 +838,17 @@ function drawColumnChart_by_country(str, ImorEx) {
     
     // draw US map and query database when a state is clicked
 	function drawRegionsMap_by_commody() {
-		var USMapStatesArray = [['City', 'Imports']];	
+		var tradeData;
+		var yearAttr = year_to_show + 'Value';
+		if (ie_to_show==='import') {	
+			tradeData = top25Destination(importDestinationDB, yearAttr);	
+		} else {
+			tradeData = top25Destination(exportDestinationDB, yearAttr);	
+		}
+		var USMapStatesArray = [['State', ie_to_show]];
+		for (var i=0; i<tradeData.length; i++) {
+			USMapStatesArray.push([tradeData[i].abbr, Math.round(tradeData[i].val)]);
+		}
 		var dataset = google.visualization.arrayToDataTable(USMapStatesArray);		
 		var USMapOptions = {};
 		USMapOptions['displayMode'] = 'regions';
@@ -834,7 +868,17 @@ function drawColumnChart_by_country(str, ImorEx) {
 		USChart.draw(dataset, USMapOptions);
 	};
 	function drawRegionsMap_by_country() {
-		var USMapStatesArray = [['City', 'Imports']];	
+		var tradeData;
+		var yearAttr = year_to_show + 'Value';
+		if (ie_to_show==='import') {	
+			tradeData = top25Destination(importDestinationDB, yearAttr);	
+		} else {
+			tradeData = top25Destination(exportDestinationDB, yearAttr);	
+		}
+		var USMapStatesArray = [['State', ie_to_show]];
+		for (var i=0; i<tradeData.length; i++) {
+			USMapStatesArray.push([tradeData[i].abbr, Math.round(tradeData[i].val)]);
+		}	
 		var dataset = google.visualization.arrayToDataTable(USMapStatesArray);		
 		var USMapOptions = {};
 		USMapOptions['displayMode'] = 'regions';
