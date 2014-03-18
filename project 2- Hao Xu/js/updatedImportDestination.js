@@ -49,7 +49,7 @@ var updatedImportDestination = [
     "2011Value":2257.04,
     "2012Value":2897.42,
     "2013Value":3025,
-    "2010PercentShare":14.3097
+    "2010PercentShare":14.3097,
     "2011PercentShare":12.9407,
     "2012PercentShare":15.7998,
     "2013PercentShare":15.9711,
