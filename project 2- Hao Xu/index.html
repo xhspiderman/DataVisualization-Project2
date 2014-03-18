@@ -361,7 +361,8 @@
         	var $label = $("label[for='"+temp.attr("id")+"']")
         	ie_to_show_by_country = $label.text().replace(/\s+/g,"")
         	showGraphs_by_country(ie_to_show_by_country, pt_to_show_by_country)
-
+			//console.log("ie_to_show_by_country: " + ie_to_show_by_country)
+			//console.log("pt_to_show_by_country: " + pt_to_show_by_country)
         })
         $('#PorT').change(function(){
         	var temp = $("input[name='PToptions']:checked")

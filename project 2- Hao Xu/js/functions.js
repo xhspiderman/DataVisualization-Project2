@@ -1004,7 +1004,9 @@ function showGraphs_by_commody(ie, pt){
 	}
 
 function showGraphs_by_country(ie, pt){
+	
 	if (ie==='import'){
+		//console.log("import success");
         $("#export_piechart_by_country").hide()
         $("#export_columnchart_by_country").hide()
         $("#export_geochart_by_country").hide()
@@ -1034,6 +1036,7 @@ function showGraphs_by_country(ie, pt){
 	        $("#geochart_by_country_table").hide()
         }
 	}else{
+		//console.log("export success");
         $("#piechart_by_country").hide()
         $("#columnchart_by_country").hide()
         $("#geochart_by_country").hide()
