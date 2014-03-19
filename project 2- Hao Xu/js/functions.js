@@ -309,11 +309,11 @@
   	dataArray.push(['Description',year+' value'])
   	dataArray_export.push(['Description',year+' value'])
   	for(var i =0; i<commodies.length; i++){
-  		var temp= [commodies[i]['Description'] , commodies[i][year+'Value']]
+  		var temp= [commodies[i]['Description'] , Math.round(commodies[i][year+'Value'])]
   		dataArray.push(temp)
   	}
   	for(var i =0; i<commodies_export.length; i++){
-  		var temp= [commodies_export[i]['Description'] , commodies_export[i][year+'Value']]
+  		var temp= [commodies_export[i]['Description'] , Math.round(commodies_export[i][year+'Value'])]
   		dataArray_export.push(temp)
   	}
   	// var state = commodies[0]['StateAbbr']
@@ -395,11 +395,11 @@ function drawChart_by_country() {
   	dataArray.push(['Country', year+' Value'])
   	dataArray_export.push(['Country',year+' Value'])
   	for(var i =0; i<countries.length; i++){
-  		var temp= [countries[i]['Country'] , countries[i][year+'Value']]
+  		var temp= [countries[i]['Country'] , Math.round(countries[i][year+'Value'])]
   		dataArray.push(temp)
   	}
   	for(var i =0; i<countries_export.length; i++){
-  		var temp= [countries_export[i]['Country'] , countries_export[i][year+'Value']]
+  		var temp= [countries_export[i]['Country'] , Math.round(countries_export[i][year+'Value'])]
   		dataArray_export.push(temp)
   	}
   	// var state = countries[0]['StateAbbr']
@@ -485,11 +485,11 @@ function drawChart_by_country() {
   	dataArray.push(['Country', year+' Value'])
   	dataArray_export.push(['Country',year+' Value'])
   	for(var i =0; i<countries.length; i++){
-  		var temp= [countries[i]['Country'] , countries[i][year+'Value']]
+  		var temp= [countries[i]['Country'] , Math.round(countries[i][year+'Value'])]
   		dataArray.push(temp)
   	}
   	for(var i =0; i<countries_export.length; i++){
-  		var temp= [countries_export[i]['Country'] , countries_export[i][year+'Value']]
+  		var temp= [countries_export[i]['Country'] , Math.round(countries_export[i][year+'Value'])]
   		dataArray_export.push(temp)
   	}
   	// var state = countries[0]['StateAbbr']
@@ -681,10 +681,10 @@ function drawColumnChart_by_commody(str, ImorEx) {
       	var record = result;
 	  	var dataArray = []
 	  	dataArray.push(['Year','Value'])
-  		dataArray.push(['2010' , result[0]['2010Value']])
-  		dataArray.push(['2011' , result[0]['2011Value']])
-  		dataArray.push(['2012' , result[0]['2012Value']])
-  		dataArray.push(['2013' , result[0]['2013Value']])
+  		dataArray.push(['2010' , Math.round(result[0]['2010Value'])])
+  		dataArray.push(['2011' , Math.round(result[0]['2011Value'])])
+  		dataArray.push(['2012' , Math.round(result[0]['2012Value'])])
+  		dataArray.push(['2013' , Math.round(result[0]['2013Value'])])
   		var data = google.visualization.arrayToDataTable(dataArray);
         var options = {
           title: 'Import Detail of '+str,
@@ -762,10 +762,10 @@ function drawColumnChart_by_country(str, ImorEx) {
       	var record = result;
 	  	var dataArray = []
 	  	dataArray.push(['Year','Value'])
-  		dataArray.push(['2010' , result[0]['2010Value']])
-  		dataArray.push(['2011' , result[0]['2011Value']])
-  		dataArray.push(['2012' , result[0]['2012Value']])
-  		dataArray.push(['2013' , result[0]['2013Value']])
+  		dataArray.push(['2010' , Math.round(result[0]['2010Value'])])
+  		dataArray.push(['2011' , Math.round(result[0]['2011Value'])])
+  		dataArray.push(['2012' , Math.round(result[0]['2012Value'])])
+  		dataArray.push(['2013' , Math.round(result[0]['2013Value'])])
   		var data = google.visualization.arrayToDataTable(dataArray);
         var options = {
           title: 'Import Detail from '+str,
@@ -803,10 +803,10 @@ function drawColumnChart_by_country(str, ImorEx) {
       	var record = result;
 	  	var dataArray = []
 	  	dataArray.push(['Year','Value'])
-  		dataArray.push(['2010' , result[0]['2010Value']])
-  		dataArray.push(['2011' , result[0]['2011Value']])
-  		dataArray.push(['2012' , result[0]['2012Value']])
-  		dataArray.push(['2013' , result[0]['2013Value']])
+  		dataArray.push(['2010' , Math.round(result[0]['2010Value'])])
+  		dataArray.push(['2011' , Math.round(result[0]['2011Value'])])
+  		dataArray.push(['2012' , Math.round(result[0]['2012Value'])])
+  		dataArray.push(['2013' , Math.round(result[0]['2013Value'])])
   		var data = google.visualization.arrayToDataTable(dataArray);
         var options = {
           title: 'Export Detail to '+str,
@@ -911,10 +911,10 @@ function drawTable_by_commody(str) {
 	  	dataArray.push(['State','2010 Value', '2011 Value','2012 Value','2013 Value'])
 	  	export_dataArray.push(['State','2010 Value', '2011 Value','2012 Value','2013 Value'])
 	  	for (var i=0; i<record.length; i++){
-	  		dataArray.push([FullStateByAbbr(record[i]["StateAbbr"]), record[i]['2010Value'],record[i]['2011Value'],record[i]['2012Value'],record[i]['2013Value']])
+	  		dataArray.push([FullStateByAbbr(record[i]["StateAbbr"]), Math.round(record[i]['2010Value']),Math.round(record[i]['2011Value']),Math.round(record[i]['2012Value']),Math.round(record[i]['2013Value'])])
 	  	}
 	  	for (var i=0; i<export_record.length; i++){
-	  		export_dataArray.push([FullStateByAbbr(export_record[i]["StateAbbr"]), export_record[i]['2010Value'],export_record[i]['2011Value'],export_record[i]['2012Value'],export_record[i]['2013Value']])
+	  		export_dataArray.push([FullStateByAbbr(export_record[i]["StateAbbr"]), Math.round(export_record[i]['2010Value']),Math.round(export_record[i]['2011Value']),Math.round(export_record[i]['2012Value']),Math.round(export_record[i]['2013Value'])])
 	  	}
 		// Create and populate the data table.
 		var data = google.visualization.arrayToDataTable(dataArray);
@@ -926,8 +926,8 @@ function drawTable_by_commody(str) {
 		export_visualization = new google.visualization.Table(document.getElementById('export_table_by_commody'));
 		visualization.draw(data, options);
         export_visualization.draw(export_data, options);
-        $('.import_table_title_by_commody').html("Import of <strong>"+str+"</strong> -- US Rank")
-        $('.export_table_title_by_commody').html("Export of <strong>"+str+"</strong> -- US Rank")
+        $('.import_table_title_by_commody').html("Import of <strong>"+str+"</strong><small><em>(in millions)</em></small> -- US Rank")
+        $('.export_table_title_by_commody').html("Export of <strong>"+str+"</strong><small><em>(in millions)</em></small> -- US Rank")
         }else{//if the object is not chosen, do not do anything
         }
 }
@@ -945,10 +945,10 @@ function drawTable_by_country(str) {
 	  	dataArray.push(['State','2010 Value', '2011 Value','2012 Value','2013 Value'])
 	  	export_dataArray.push(['State','2010 Value', '2011 Value','2012 Value','2013 Value'])
 	  	for (var i=0; i<record.length; i++){
-	  		dataArray.push([FullStateByAbbr(record[i]["StateAbbr"]), record[i]['2010Value'],record[i]['2011Value'],record[i]['2012Value'],record[i]['2013Value']])
+	  		dataArray.push([FullStateByAbbr(record[i]["StateAbbr"]), Math.round(record[i]['2010Value']),Math.round(record[i]['2011Value']),Math.round(record[i]['2012Value']),Math.round(record[i]['2013Value'])])
 	  	}
 	  	for (var i=0; i<export_record.length; i++){
-	  		export_dataArray.push([FullStateByAbbr(export_record[i]["StateAbbr"]), export_record[i]['2010Value'],export_record[i]['2011Value'],export_record[i]['2012Value'],export_record[i]['2013Value']])
+	  		export_dataArray.push([FullStateByAbbr(export_record[i]["StateAbbr"]), Math.round(export_record[i]['2010Value']),Math.round(export_record[i]['2011Value']),Math.round(export_record[i]['2012Value']),Math.round(export_record[i]['2013Value'])])
 	  	}
 		// Create and populate the data table.
 		var data = google.visualization.arrayToDataTable(dataArray);
@@ -960,8 +960,8 @@ function drawTable_by_country(str) {
 		export_visualization = new google.visualization.Table(document.getElementById('export_table_by_country'));
 		visualization.draw(data, options);
         export_visualization.draw(export_data, options);
-        $('.import_table_title_by_country').html("Import from <strong>"+str+"</strong> -- US Rank")
-        $('.export_table_title_by_country').html("Export to <strong>"+str+"</strong> -- US Rank")
+        $('.import_table_title_by_country').html("Import from <strong>"+str+"</strong><small><em>(in millions)</em></small> -- US Rank")
+        $('.export_table_title_by_country').html("Export to <strong>"+str+"</strong><small><em>(in millions)</em></small> -- US Rank")
         }else{//if the object is not chosen, do not do anything
         }
 }
@@ -1083,7 +1083,6 @@ function showGraphs_top25(ie, year){
     var options = {
       title: 'Import Top25 in US'+ ' in '+year ,
       chartArea:{left:5,top:19,width:"95%",height:"99%"},
-      is3D: true,
       legend: 'none',
     };
 
@@ -1091,7 +1090,7 @@ function showGraphs_top25(ie, year){
 	chart_top25.draw(data_top25, options);
     ////////////////////////////////////////// Drawing for table of  piechart_by_commody_table export_piechart_by_commody_table
   	var table_options = {'page': 'enable'};
-  	table_options['pageSize'] = 18;
+  	table_options['pageSize'] = 20;
   	table_options['showRowNumber'] = true
 	visualization_table = new google.visualization.Table(document.getElementById('top25_table'));
 	visualization_table.draw(data_top25, table_options);
@@ -1111,7 +1110,6 @@ function showGraphs_top25(ie, year){
 	    var options = {
 	      title: 'Export Top25 in US'+ ' in '+year ,
 	      chartArea:{left:5,top:19,width:"95%",height:"99%"},
-	      is3D: true,
 	      legend: 'none',
 	    };
 
@@ -1119,7 +1117,7 @@ function showGraphs_top25(ie, year){
 		chart_top25.draw(data_top25, options);
 	    ////////////////////////////////////////// Drawing for table of  piechart_by_commody_table export_piechart_by_commody_table
 	  	var table_options = {'page': 'enable'};
-	  	table_options['pageSize'] = 18;
+	  	table_options['pageSize'] = 20;
 	  	table_options['showRowNumber'] = true
 
 		visualization_table = new google.visualization.Table(document.getElementById('top25_table'));
