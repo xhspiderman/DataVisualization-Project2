@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<title>My Favourite Things</title>
+		<script src="js/taffy.js"></script>
+		<script src="js/2digitHSCodes.js"></script>
+		<script src="js/4digitHSCodes.js"></script>
+		<script src="js/6digitHSCodes.js"></script>
+		<script type="text/javascript" src="js/updatedImportDestination.js"></script>
+		<script type="text/javascript" src="js/updatedExportDestination.js"></script>
+		<script type="text/javascript" src="js/updatedImportTop25.js"></script>
+		<script type="text/javascript" src="js/updatedExportTop25.js"></script>
+		<script type="text/javascript" src="js/stateAbbreviations.js"></script>
+		<script src="multiple-select-master/jquery-1.11.0.min.js"></script>
+		<script src="js/jquery-ui-1.10.4.custom.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="multiple-select-master/jquerymultipleselect.js"></script>
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		<script type="text/javascript" src="js/functions.js"></script>
+		<link rel="stylesheet" type="text/css" href="multiple-select-master/multiple-select.css">
+		<link rel="stylesheet" type="text/css" href="css/app.css">
+
+		<script>
+        // Three level HS code
+		var HS2 = TAFFY( HS2_code );
+		var HS4 = TAFFY( HS4_code );
+		var HS6 = TAFFY( HS6_code );
+		// when outputing hscode field, 01 will be 1, but when doing matching, we still need 01 to match it !!!!
+		//create databases from JSON data
+		// var importDestinationDB = TAFFY(importDestination);
+		// var exportDestinationDB = TAFFY(exportDestination);
+		// var importTop25DB = TAFFY(importTop25);
+		// var exportTop25DB = TAFFY(exportTop25);
+		var importDestinationDB = TAFFY(updatedImportDestination);
+		var exportDestinationDB = TAFFY(updatedExportDestination);
+		var importTop25DB = TAFFY(updatedImportTop25);
+		var exportTop25DB = TAFFY(updatedExportTop25);
+		var stateAbbreviationsDB = TAFFY(StateAbbreviations);
+		var importResultsTable_by_country;
+		var exportResultsTable_by_country;
+		var importResultsTable_by_commody;
+		var exportResultsTable_by_commody;
+		var chart_by_country
+		var chart_by_commody
+		var chart_by_country_export
+		var chart_by_commody_export
+		var USchart_by_commody
+		var USChart_by_country
+		var data_by_country
+		var data_by_commody
+		var data_by_country_export
+		var data_by_commody_export
+		var year_to_show = '2013'
+		var year_to_show_by_country = '2013'
+		var year_to_show_top25 = '2013'
+		var ie_to_show = 'import'
+		var ie_to_show_by_country = 'import'
+		var ie_to_show_top25 = 'import'
+		var pt_to_show = 'PieChart'
+		var pt_to_show_by_country = 'PieChart'
+		var menutoggle=1
+
+		</script>
+	</head>
+	<body>
+
+	<div id='cusmenubar'  class='row draggable'  style='position:fixed;top:0px;left:0px;z-index:999;width:100%;margin-left:0px !important;margin-right:0px !important;'>
+
+     	<ul class='col-xs-12 menuul' style=''>
+	 		<li  class='col-xs-2 menuim text-center'><img src="img/myf.JPG" alt="My Favourite Things" class="img-circle menuIMG" style='border:2px solid #c7bfbf;'>
+     		</li>
+		    <li class='col-xs-2 menuli text-center' style=''>
+	             <a class="searchbychar" href="#" data-target="top25div">Top25 Im/Exports</a>
+		    </li>
+		    <li class='col-xs-2 menuli text-center' style=''>
+	             <a class="searchbychar" href="#" data-target="bycommodydiv">Details By Commodies </a>
+		    </li>
+		    <li class='col-xs-2 menuli text-center' style=''>
+	             <a class="searchbychar" href="#" data-target="bycountrydiv">Details By Country </a>
+ 		    </li>
+		    <li class='col-xs-2 menuli text-center' id='instructionsdivmenu' style=''>
+		    	Instructions
+	 	    </li>
+		    <li class='col-xs-2 menuli text-center' id='otherinformationdivmenu' style=''>
+		    	Other Information
+	 	    </li>
+     	</ul>
+
+	</div>
+    <br>
+    <br>
+    <br>
+    <br>
+	<div id='apps'>
+    <!-- Top 25 -->
+	<div id='top25div' class='row ' style='background-color:white;padding-left:10px;'>
+    	<div class='col-xs-12'>
+			<h2> Top 25 Import/Export in US ?<small><em>(in millions)</em></small></h2>
+		</div>
+
+		<div class='col-xs-5'>
+			<div class='row'>
+			<div id="year_top25" class='col-xs-5 col-xs-offset-1' style="height: 50px;padding-left:5px;">
+				<div class="btn-group btn-group-xs" data-toggle="buttons">
+				  <label for="option1_top25" class="btn btn-default">
+				    <input type="radio" name="yearoptions_top25" id="option1_top25">2010</input>
+				  </label>
+				  <label for="option2_top25" class="btn btn-default">
+				    <input type="radio" name="yearoptions_top25" id="option2_top25">2011</input>
+				  </label>
+				  <label for="option3_top25" class="btn btn-default">
+				    <input type="radio" name="yearoptions_top25" id="option3_top25">2012</input>
+				  </label>
+  				  <label for="option4_top25" class="btn btn-default active">
+				    <input type="radio" name="yearoptions_top25" id="option4_top25">2013</input>
+				  </label>
+				</div>
+			</div>
+			<div id="imorex_top25" class='col-xs-6' style="height: 50px;padding-left:5px;">
+				<div class="btn-group btn-group-xs" data-toggle="buttons">
+				  <label for="ieoption1_top25" class="btn btn-default active">
+				    <input type="radio" name="ieoptions_top25" id="ieoption1_top25">import</input>
+				  </label>
+				  <label for="ieoption2_top25" class="btn btn-default">
+				    <input type="radio" name="ieoptions_top25" id="ieoption2_top25">export</input>
+				  </label>
+				</div>
+			</div>
+			</div>
+
+	        <div id="top25_table" class="col-xs-12" style='height:560px;'>table</div>
+		</div>
+
+	    <div class='col-xs-7'>
+	    	<div class='row'>
+				<div id="piechart_top25" class="col-xs-12" style='height:640px;'>piechart</div>
+			</div>
+		</div>
+	</div>
+	<!-- Top 25 -->
+
+    <div id='bycommodydiv' class="row " style='background-color:white;padding-left:10px;'>
+    	<div class='col-xs-12'>
+			<h2> Import/Export Details of US <small>Selecting Commodies by HScodes</small></h2>
+		    <select multiple="multiple" id='First_Level_Selection' style='width:1200px;'></select>
+		    <input type="checkbox" id="includeDetail">include detail
+		    <p> </p>
+		</div>
+		<script type="text/javascript">
+	      google.load('visualization', '1', {'packages': ['geochart']});
+	      google.load("visualization", "1", {packages:["corechart"]});
+	      google.load('visualization', '1', {packages:['table']});
+	    </script>
+		<div class='col-xs-4'>
+			<div class='row'>
+			<div id="year_by_commody" class='col-xs-7 col-xs-offset-1' style="height: 50px;padding-left:5px;">
+				<div class="btn-group btn-group-sm" data-toggle="buttons">
+				  <label for="option1" class="btn btn-default">
+				    <input type="radio" name="yearoptions" id="option1">2010</input>
+				  </label>
+				  <label for="option2" class="btn btn-default">
+				    <input type="radio" name="yearoptions" id="option2">2011</input>
+				  </label>
+				  <label for="option3" class="btn btn-default">
+				    <input type="radio" name="yearoptions" id="option3">2012</input>
+				  </label>
+  				  <label for="option4" class="btn btn-default active">
+				    <input type="radio" name="yearoptions" id="option4">2013</input>
+				  </label>
+				</div>
+			</div>
+			<div id="imorex" class='col-xs-4' style="height: 50px;padding-left:5px;">
+				<div class="btn-group btn-group-sm" data-toggle="buttons">
+				  <label for="ieoption1" class="btn btn-default active">
+				    <input type="radio" name="ieoptions" id="ieoption1">import</input>
+				  </label>
+				  <label for="ieoption2" class="btn btn-default">
+				    <input type="radio" name="ieoptions" id="ieoption2">export</input>
+				  </label>
+				</div>
+			</div>
+    		<div class='col-xs-11 col-xs-offset-1'>
+			    <select id="statesListbox_by_commody" class='form-control'></select>
+			</div>
+			</div>
+	        <div id="USchart_div_by_commody" class='col-xs-12' style="height: 200px;padding-left:5px;"></div>
+		</div>
+
+	    <div class="col-xs-8">
+	    	<div class='row'  style=''>
+				<div id="PorT" class="col-xs-6" style='height:30px;'>
+					<div class="btn-group btn-group-sm" data-toggle="buttons">
+					  <label for="PToption1" class="btn btn-default active">
+					    <input type="radio" name="PToptions" id="PToption1">Pie Chart</input>
+					  </label>
+					  <label for="PToption2" class="btn btn-default">
+					    <input type="radio" name="PToptions" id="PToption2">Table</input>
+					  </label>
+					</div>
+				</div>
+			</div>
+	    	<div class='row import_commody'  style=''>
+				<div id="piechart_by_commody" class="col-xs-6" style='height:300px;'></div>
+				<div id="piechart_by_commody_table" class="col-xs-6" style='height:300px;'></div>
+				<div id="columnchart_by_commody" class="col-xs-6" style='height:300px;'></div>
+				<div id="columnchart_by_commody_table" class="col-xs-6" style='height:300px;'></div>
+			</div>
+			<div class='row export_commody' style=''>
+				<div id="export_piechart_by_commody" class="col-xs-6" style='height:300px;'></div>
+				<div id="export_piechart_by_commody_table" class="col-xs-6" style='height:300px;'></div>
+				<div id="export_columnchart_by_commody" class="col-xs-6" style='height:300px;'></div>
+				<div id="export_columnchart_by_commody_table" class="col-xs-6" style='height:300px;'></div>
+			</div>
+		</div>
+		<div class="col-xs-12">
+	    	<div class='col-xs-6'  >
+	    		<p class=" import_table_title_by_commody col-xs-12" style='margin-bottom:10px;'>Pick one commody in <img src="img/pie.JPG" alt="Pie Chart" width="22" height="22"> ->Show its <strong>Import</strong> US Rank</p>
+				<div id="import_table_by_commody" class="col-xs-12" style=''></div>
+			</div>
+			<div class='col-xs-6' >
+				<p class=" export_table_title_by_commody col-xs-12" style='margin-bottom:10px;'>Pick one commody in <img src="img/pie.JPG" alt="Pie Chart" width="22" height="22"> ->Show its <strong>Import</strong> US Rank</p>
+				<div id="export_table_by_commody" class="col-xs-12" style=''></div>
+			</div>
+		</div>
+	</div>
+
+	<div id='bycountrydiv' class='row ' style='background-color:white; padding-left:10px;'>
+    	<div class='col-xs-12'>
+			<h2> Import/Export Details of US with Different Countries</h2>
+		</div>
+
+		<div class='col-xs-4'>
+			<div class='row'>
+			<div id="year_by_country" class='col-xs-7 col-xs-offset-1' style="height: 50px;padding-left:5px;">
+				<div class="btn-group btn-group-sm" data-toggle="buttons">
+				  <label for="option1_by_country" class="btn btn-default">
+				    <input type="radio" name="yearoptions_by_country" id="option1_by_country">2010</input>
+				  </label>
+				  <label for="option2_by_country" class="btn btn-default">
+				    <input type="radio" name="yearoptions_by_country" id="option2_by_country">2011</input>
+				  </label>
+				  <label for="option3_by_country" class="btn btn-default">
+				    <input type="radio" name="yearoptions_by_country" id="option3_by_country">2012</input>
+				  </label>
+  				  <label for="option4_by_country" class="btn btn-default active">
+				    <input type="radio" name="yearoptions_by_country" id="option4_by_country">2013</input>
+				  </label>
+				</div>
+			</div>
+			<div id="imorex_by_country" class='col-xs-4' style="height: 50px;padding-left:5px;">
+				<div class="btn-group btn-group-sm" data-toggle="buttons">
+				  <label for="ieoption1_by_country" class="btn btn-default active">
+				    <input type="radio" name="ieoptions_by_country" id="ieoption1_by_country">import</input>
+				  </label>
+				  <label for="ieoption2_by_country" class="btn btn-default">
+				    <input type="radio" name="ieoptions_by_country" id="ieoption2_by_country">export</input>
+				  </label>
+				</div>
+			</div>
+    		<div class='col-xs-11 col-xs-offset-1'>
+			    <select id="statesListbox_by_country" class='form-control'></select>
+			</div>
+			</div>
+
+	        <div id="USchart_div_by_country" style="height: 200px;padding-left:5px;"></div>
+		</div>
+
+	    <div class='col-xs-8'>
+	    	<div class='row'  style=''>
+				<div id="PorT_by_country" class="col-xs-6" style='height:30px;'>
+					<div class="btn-group btn-group-sm" data-toggle="buttons">
+					  <label for="PToption1_by_country" class="btn btn-default active">
+					    <input type="radio" name="PToptions_by_country" id="PToption1_by_country">Pie Chart</input>
+					  </label>
+					  <label for="PToption2_by_country" class="btn btn-default">
+					    <input type="radio" name="PToptions_by_country" id="PToption2_by_country">Table</input>
+					  </label>
+					  <label for="PToption3_by_country" class="btn btn-default">
+					    <input type="radio" name="PToptions_by_country" id="PToption3_by_country">World Map</input>
+					  </label>
+					</div>
+				</div>
+			</div>
+	    	<div class='row import_country'>
+				<div id="piechart_by_country" class="col-xs-6" style='height:300px;'></div>
+				<div id="piechart_by_country_table" class="col-xs-6" style='height:300px;'></div>
+			    <div id="columnchart_by_country" class="col-xs-6" style='height:300px;'></div>
+			    <div id="columnchart_by_country_table" class="col-xs-6" style='height:300px;'></div>
+			    <div id="geochart_by_country" class="col-xs-6" style='height:300px;'></div>
+			    <div id="geochart_by_country_table" class="col-xs-6" style='height:300px;'></div>
+			</div>
+			<div class='row export_country'>
+				<div id="export_piechart_by_country" class="col-xs-6" style='height:300px;'></div>
+				<div id="export_piechart_by_country_table" class="col-xs-6" style='height:300px;'></div>
+			    <div id="export_columnchart_by_country" class="col-xs-6" style='height:300px;'></div>
+			    <div id="export_columnchart_by_country_table" class="col-xs-6" style='height:300px;'></div>
+			    <div id="export_geochart_by_country" class="col-xs-6" style='height:300px;'></div>
+			    <div id="export_geochart_by_country_table" class="col-xs-6" style='height:300px;'></div>
+			</div>
+		</div>
+		<div class="col-xs-12">
+	    	<div class='col-xs-6'  >
+	    		<p class=" import_table_title_by_country col-xs-12" style='margin-bottom:10px;'>Pick one country in <img src="img/pie.JPG" alt="Pie Chart" width="22" height="22"> ->Show its <strong>Import</strong> US Rank</p>
+				<div id="import_table_by_country" class="col-xs-12" style=''></div>
+			</div>
+			<div class='col-xs-6' >
+				<p class=" export_table_title_by_country col-xs-12" style='margin-bottom:10px;'>Pick one country in <img src="img/pie.JPG" alt="Pie Chart" width="22" height="22"> ->Show its <strong>Export</strong> US Rank</p>
+				<div id="export_table_by_country" class="col-xs-12" style=''></div>
+			</div>
+		</div>
+	</div>
+	</div>
+
+	<div id='instructionsdiv'>
+		<h1>Instructions</h1>
+	</div >
+	<div id='otherinformationdiv'>
+		<h1>Other information</h1>
+	</div >
+	
+
+    <script>
+    // Used to store Selected HS2 code
+    var selectedValues = [];
+    // used to store selected HS6 code
+    var selected_HS6_Codes = [];
+    
+    $( document ).ready(function() {
+	    selectionBox()// Prepare all data needed for initializing selectBox
+	    selectBoxInitialization(); // Initialize selectBox
+    	populateListbox();
+    	// output default results
+    	populateResultsTable_by_country();
+    	populateResultsTable_by_commody();
+    	// initial display of column chart
+        drawColumnChart_by_commody("Smfd Irn/Nal Stl Lt .25 Pct Crb Rect Cs Wid 2",'import')
+        drawColumnChart_by_commody("Pass Veh Spk-Ig Int Com Rcpr P Eng > 3000 Cc",'export')
+        drawColumnChart_by_country('Canada', 'import')
+        drawColumnChart_by_country("Canada", 'export')
+        // drawTable_by_commody("Instr & Appl F Medical Surgical Dental Vet, N")
+        // drawTable_by_country("Canada")
+        showGraphs_top25(ie_to_show_top25, year_to_show_top25)
+        drawRegionsMap_by_commody()
+        drawRegionsMap_by_country()
+        // top25(exportTop25DB, '2013Value');
+	    $("#includeDetail").click(function(){
+	    	$("#First_Level_Selection").html("");
+            selectionBox();
+            selectBoxInitialization();
+	    });
+    	//populate results table when radio button or listbox changes
+		$("#statesListbox_by_country").change(function(){
+	        populateResultsTable_by_country();
+		});
+		$("#statesListbox_by_commody").change(function(){
+	        populateResultsTable_by_commody()
+		});
+
+		$('.btn').button()
+        $('#year_by_commody').change(function(){
+        	var temp = $("input[name='yearoptions']:checked")
+        	var $label = $("label[for='"+temp.attr("id")+"']")
+        	year_to_show = $label.text().replace(/\s+/g,"")
+        	populateResultsTable_by_commody()
+        })
+        $('#imorex').change(function(){
+        	var temp = $("input[name='ieoptions']:checked")
+        	var $label = $("label[for='"+temp.attr("id")+"']")
+        	ie_to_show = $label.text().replace(/\s+/g,"")
+        	showGraphs_by_commody(ie_to_show, pt_to_show)
+        })
+        $('#year_by_country').change(function(){
+        	var temp = $("input[name='yearoptions_by_country']:checked")
+        	var $label = $("label[for='"+temp.attr("id")+"']")
+        	year_to_show_by_country = $label.text().replace(/\s+/g,"")
+        	populateResultsTable_by_country()
+        })
+        $('#year_top25').change(function(){
+        	var temp = $("input[name='yearoptions_top25']:checked")
+        	var $label = $("label[for='"+temp.attr("id")+"']")
+        	year_to_show_top25 = $label.text().replace(/\s+/g,"")
+        	// console.log(year_to_show_top25)
+        	showGraphs_top25(ie_to_show_top25, year_to_show_top25)
+        })
+        $('#imorex_top25').change(function(){
+        	var temp = $("input[name='ieoptions_top25']:checked")
+        	var $label = $("label[for='"+temp.attr("id")+"']")
+        	ie_to_show_top25 = $label.text().replace(/\s+/g,"")
+        	// console.log(ie_to_show_top25)
+        	showGraphs_top25(ie_to_show_top25, year_to_show_top25)
+        })
+        $('#imorex_by_country').change(function(){
+        	var temp = $("input[name='ieoptions_by_country']:checked")
+        	var $label = $("label[for='"+temp.attr("id")+"']")
+        	ie_to_show_by_country = $label.text().replace(/\s+/g,"")
+        	showGraphs_by_country(ie_to_show_by_country, pt_to_show_by_country)
+			//console.log("ie_to_show_by_country: " + ie_to_show_by_country)
+			//console.log("pt_to_show_by_country: " + pt_to_show_by_country)
+        })
+        $('#PorT').change(function(){
+        	var temp = $("input[name='PToptions']:checked")
+        	var $label = $("label[for='"+temp.attr("id")+"']")
+        	pt_to_show = $label.text().replace(/\s+/g,"")
+        	showGraphs_by_commody(ie_to_show, pt_to_show)
+        })
+        $('#PorT_by_country').change(function(){
+        	var temp = $("input[name='PToptions_by_country']:checked")
+        	var $label = $("label[for='"+temp.attr("id")+"']")
+        	pt_to_show_by_country = $label.text().replace(/\s+/g,"")
+        	showGraphs_by_country(ie_to_show_by_country, pt_to_show_by_country)
+        })
+
+    // Set initial hide/show status for import and export
+        $("#export_piechart_by_commody").hide()
+        $("#export_columnchart_by_commody").hide()
+        $("#export_piechart_by_country").hide()
+        $("#export_columnchart_by_country").hide()
+    // Set initial hide/show status for tables
+        $("#piechart_by_commody_table").hide()
+        $("#columnchart_by_commody_table").hide()
+        $("#export_piechart_by_commody_table").hide()
+        $("#export_columnchart_by_commody_table").hide()
+        $("#piechart_by_country_table").hide()
+        $("#columnchart_by_country_table").hide()
+        $("#export_piechart_by_country_table").hide()
+        $("#export_columnchart_by_country_table").hide()
+        $("#geochart_by_country").hide()
+        $("#export_geochart_by_country").hide()        
+        $("#geochart_by_country_table").hide()
+        $("#export_geochart_by_country_table").hide()
+        //Animation 
+		$('#otherinformationdiv').hide()
+		$('#instructionsdiv').hide()
+        $( ".draggable" ).draggable({
+		    start: function(event, ui) {
+		        $(this).addClass('noclick');
+		    }
+		});
+        $( '.searchbychar' ).on('click', function(event) {
+		    event.preventDefault();
+		    var target = "#" + $(this).data('target');
+		    $('html, body').animate({
+		        scrollTop: $(target).offset().top
+		    }, 200);
+		    $('#apps').show('fast')
+		    $('#instructionsdiv').hide()
+		    $('#otherinformationdiv').hide()
+		});
+		$('.menuim').on('click',function(event){
+			if ($(this).closest('#cusmenubar').hasClass('noclick')) {
+		        $(this).closest('#cusmenubar').removeClass('noclick');
+		    }
+		    else {
+				if(menutoggle===1){
+				$(this).siblings().hide('fast')
+				$(this).closest('ul').css("background-color", "transparent")
+				$(this).find('img').css({width : '35px',height : '35px'})
+		        // $( "#draggable" ).draggable();
+				menutoggle=0;
+				}else{
+				$(this).siblings().show('fast')	
+				$(this).closest('ul').css("background-color", "#ecf0f1")
+				$(this).find('img').css({width : '60px',height : '60px'})
+				$(this).closest('#cusmenubar').css({top : '0px', left : '0px'})
+				// $( "#draggable" ).draggable();
+				menutoggle=1;
+				}
+			    }
+		})
+		$('#instructionsdivmenu').on('click',function(event){
+			$('#apps').hide('fast')
+			$('#otherinformationdiv').hide('fast')
+			$('#instructionsdiv').show('fast')
+		})
+		$('#otherinformationdivmenu').on('click',function(event){
+			$('#apps').hide('fast')
+			$('#otherinformationdiv').show('fast')
+			$('#instructionsdiv').hide('fast')
+		})
+
+	});
+    </script>
+
+	</body>
+				
+</html>
