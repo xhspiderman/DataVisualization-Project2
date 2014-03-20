@@ -16,11 +16,13 @@
 		<script type="text/javascript" src="js/updatedExportTop25.js"></script>
 		<script type="text/javascript" src="js/stateAbbreviations.js"></script>
 		<script src="multiple-select-master/jquery-1.11.0.min.js"></script>
+		<script src="js/jquery-ui-1.10.4.custom.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
 		<script src="multiple-select-master/jquerymultipleselect.js"></script>
 		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 		<script type="text/javascript" src="js/functions.js"></script>
 		<link rel="stylesheet" type="text/css" href="multiple-select-master/multiple-select.css">
+		<link rel="stylesheet" type="text/css" href="css/app.css">
 
 		<script>
         // Three level HS code
@@ -60,14 +62,42 @@
 		var ie_to_show_top25 = 'import'
 		var pt_to_show = 'PieChart'
 		var pt_to_show_by_country = 'PieChart'
+		var menutoggle=1
 
 		</script>
 	</head>
 	<body>
-     <h1>&nbsp;&nbsp;My Favourite Things</h1>
+
+	<div id='cusmenubar'  class='row draggable'  style='position:fixed;top:0px;left:0px;z-index:999;width:100%;margin-left:0px !important;margin-right:0px !important;'>
+
+     	<ul class='col-xs-12 menuul' style=''>
+	 		<li  class='col-xs-2 menuim text-center'><img src="img/myf.JPG" alt="My Favourite Things" class="img-circle menuIMG" style='border:2px solid #c7bfbf;'>
+     		</li>
+		    <li class='col-xs-2 menuli text-center' style=''>
+	             <a class="searchbychar" href="#" data-target="top25div" style="text-decoration: none">Top25 Im/Exports</a>
+		    </li>
+		    <li class='col-xs-2 menuli text-center' style=''>
+	             <a class="searchbychar" href="#" data-target="bycommodydiv" style="text-decoration: none">Details By Commodies </a>
+		    </li>
+		    <li class='col-xs-2 menuli text-center' style=''>
+	             <a class="searchbychar" href="#" data-target="bycountrydiv" style="text-decoration: none">Details By Country </a>
+ 		    </li>
+		    <li class='col-xs-2 menuli text-center' id='instructionsdivmenu' style=''>
+		    	Instructions
+	 	    </li>
+		    <li class='col-xs-2 menuli text-center' id='otherinformationdivmenu' style=''>
+		    	Other Information
+	 	    </li>
+     	</ul>
+
+	</div>
+
+	<div id='apps'>
+    <br>
+    <br>
     <br>
     <!-- Top 25 -->
-	<div class='row well' style='background-color:white;'>
+	<div id='top25div' class='row ' style='background-color:white;padding-left:10px;'>
     	<div class='col-xs-12'>
 			<h2> Top 25 Import/Export in US ?<small><em>(in millions)</em></small></h2>
 		</div>
@@ -112,8 +142,8 @@
 		</div>
 	</div>
 	<!-- Top 25 -->
-
-    <div class="row well" style='background-color:white;'>
+    <hr>
+    <div id='bycommodydiv' class="row " style='background-color:white;padding-left:10px;'>
     	<div class='col-xs-12'>
 			<h2> Import/Export Details of US <small>Selecting Commodies by HScodes</small></h2>
 		    <select multiple="multiple" id='First_Level_Selection' style='width:1200px;'></select>
@@ -197,8 +227,8 @@
 			</div>
 		</div>
 	</div>
-
-	<div class='row well' style='background-color:white;'>
+    <hr>
+	<div id='bycountrydiv' class='row ' style='background-color:white; padding-left:10px;'>
     	<div class='col-xs-12'>
 			<h2> Import/Export Details of US with Different Countries</h2>
 		</div>
@@ -283,8 +313,217 @@
 			</div>
 		</div>
 	</div>
-    <!-- display results for selected HS6 code -->
-    <div id='selected_HS_Code'></div>
+	      <hr>
+      <footer>
+        <p>© Hao Xu &amp; Anthony Xu 2014</p>
+      </footer>
+	</div>
+
+	<div id='instructionsdiv'>
+	    <div class="jumbotron">
+			<div class="container">
+				<h1>US Import/Export Analysis</h1>
+				<p>Here you will discover:<em> What are the top imports or exports of US ? How much favourite food does your hometown import and which state exports most of it? Who trade most with different US states? </em></p>
+				<p class="text-muted"><small>The goal of this project is to present interesting and useful visualizations for US imports and exports with information from the US Census. It makes use of different Google Visualizations to provide interactive charts and tables. A walkthrough of the features of the visualizations are below. We hope you enjoy using it and find some interesting information</small></p>
+				<p><a class="btn btn-primary btn-lg" role="button">Learn more »</a></p>
+			</div>
+		</div>
+
+    <div class="container">
+
+      <div class="row">
+
+      	<hr class="featurette-divider">
+      	<div class="row featurette">
+        <div class="col-md-5">
+          <h2 class="featurette-heading">Video Intro <span class="text-muted">details from the author</span></h2>
+          <p class="lead">One video introduction to dive into the usage of this app <span class="glyphicon glyphicon-hand-right"></span></p>
+        </div>
+        <div class="col-md-7">
+         <object width="640" height="360"><param name="movie" value="//www.youtube-nocookie.com/v/1TPMCBO40JY?hl=en_US&amp;version=3&amp;rel=0"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="//www.youtube-nocookie.com/v/1TPMCBO40JY?hl=en_US&amp;version=3&amp;rel=0" type="application/x-shockwave-flash" width="640" height="360" allowscriptaccess="always" allowfullscreen="true"></embed></object>
+        </div>
+      </div>
+      <br>
+      <hr class="featurette-divider">
+      <div class="row featurette">
+        <div class="col-md-7">
+          <img class="featurette-image img-responsive" src="img/top25ie.png" alt="Pie Chart">
+        </div>
+        <div class="col-md-5">
+          <h2 class="featurette-heading">Navigation Bar <span class="text-muted"> togglable &amp; draggable</span></h2>
+          <p class="lead">When the page is first loaded you can see the page navigation functions at the top of the page. Click one of them to view different types of information. The first thing you see is a table and pie chart of the top 25 imports of 2013. You can use the toggles for year and import/export to view different information.</p>
+        </div>
+      </div>
+      <hr class="featurette-divider">
+      <div class="row featurette">
+        <div class="col-md-5">
+          <h2 class="featurette-heading">Pie Chart <span class="text-muted"> hover effects &amp; ordering</span></h2>
+          <p class="lead">The pie chart shows the same information, but in a graphic view. Here, the most imported/exported commodities are represented by a greater percentage of the pie. Hover over any of the slices to view the commodity represented by each slice.</p>
+        </div>
+        <div class="col-md-7">
+          <img class="featurette-image img-responsive" src="img/top25iehover.png" alt="top25iehover">
+        </div>
+      </div>
+      <hr class="featurette-divider">
+      <div class="row featurette">
+        <div class="col-md-7">
+          <img class="featurette-image img-responsive" src="img/ieUSMap.png" alt="ieUSmap">
+        </div>
+        <div class="col-md-5">
+          <h2 class="featurette-heading">Import/Export for Commody<span class="text-muted"> pick interesting commodies</span></h2>
+          <p class="lead">The next type of information shown is the import/export information for specific commodities. You can see a map of the US with the colors representing a higher amount of commodities (in millions of dollars)imported or exported by state. Hover over a state to view the exact amount. You can also click on a state which will update the rest of the charts.</p>
+        </div>
+      </div>
+      <hr class="featurette-divider">
+      <div class="row featurette">
+        <div class="col-md-5">
+          <h2 class="featurette-heading">Pie Chart for Commody <span class="text-muted"> hover &amp; click</span></h2>
+          <p class="lead">This pie chart shows the top 25 imports or exports for that state. Hover over any of the slices to view the commodity represented by each slice. Clicking on any of these slices updates both the column chart on the right and the two tables underneath with information for that commodity. The column chart shows the amount of imports or exports for that commodity by year. The left table on the bottom shows the other states which imported that specific commodity. The right table on shows the other states which imported that specific commodity.</p>
+        </div>
+        <div class="col-md-7">
+          <img class="featurette-image img-responsive" src="img/ieHoverPie.png" alt="ie hover">
+        </div>
+      </div>
+      <hr class="featurette-divider">
+      <div class="row featurette">
+        <div class="col-md-7">
+          <img class="featurette-image img-responsive" src="img/ieExportToggle.png" alt="ie toggle">
+        </div>
+        <div class="col-md-5">
+          <h2 class="featurette-heading">Toggles<span class="text-muted"> years &amp; Import/Export</span></h2>
+          <p class="lead">Just like the top visualization, you can toggle between the years and import/export to view more information.</p>
+        </div>
+      </div>
+
+      <hr class="featurette-divider">
+      <div class="row featurette">
+        <div class="col-md-5">
+          <h2 class="featurette-heading">Table or Pie Chart ?<span class="text-muted"> always togglable</span></h2>
+          <p class="lead">You can also view this information as a table, if you prefer, by choosing the "Table" toggle.</p>
+        </div>
+        <div class="col-md-7">
+          <img class="featurette-image img-responsive" src="img/ieTable.png" alt="table toggle">
+        </div>
+      </div>
+
+      <hr class="featurette-divider">
+      <div class="row featurette">
+        <div class="col-md-7">
+          <img class="featurette-image img-responsive" src="img/countryUSMap.png" alt="country US map">
+        </div>
+        <div class="col-md-5">
+          <h2 class="featurette-heading">Import/Export for Country<span class="text-muted"> pick your favourite country</span></h2>
+          <p class="lead">The last set of visualizations looks similar to the previous one, but shows the countries with which a state imports and exports with. The US chart shows the states with the highest amount of imports/exports. Again you can click on a state which will update the rest of the charts with information for that specific state.</p>
+        </div>
+      </div>
+
+      <hr class="featurette-divider">
+      <div class="row featurette">
+        <div class="col-md-5">
+          <h2 class="featurette-heading">Pie Chart for Countries<span class="text-muted"> hover &amp; click</span></h2>
+          <p class="lead">The pie chart will update with the countries with which a state imports and exports the most as a larger piece of the pie. You can hover to view more information or click to update the column chart and the two tables underneath with more information for that country.</p>
+        </div>
+        <div class="col-md-7">
+          <img class="featurette-image img-responsive" src="img/countryUpdateTables.png" alt="Country Tables">
+        </div>
+      </div>
+
+      <hr class="featurette-divider">
+      <div class="row featurette">
+        <div class="col-md-7">
+          <img class="featurette-image img-responsive" src="img/countryWorldMap.png" alt="world map view">
+        </div>
+        <div class="col-md-5">
+          <h2 class="featurette-heading">World Map View<span class="text-muted"> sense of globalization</span></h2>
+          <p class="lead">There is one more view for this information which is a world map. View this map by clicking on the "World Map" toggle. Similar to the US map, countries with a higher number of imports or exports is represented by a darker color.</p>
+        </div>
+      </div>
+      </div>
+
+      <hr>
+      <footer>
+        <p>© Hao Xu &amp; Anthony Xu 2014</p>
+      </footer>
+    </div>
+
+	</div >
+
+	<div id='otherinformationdiv'>
+	    <div class="jumbotron">
+			<div class="container">
+				<h1>Other Informations</h1>
+				<p>Here you will find more details about: <strong> Data Source</strong> | <strong>  Source Code</strong> | <strong>  Interesting Findings</strong> | <strong>  Project Progress List</strong></p>
+				<p><a href='https://github.com/xhspiderman/DataVisualization-Project2' class="btn btn-primary btn-lg" role="button">GO to Git Hub »</a></p>
+			</div>
+		</div>
+
+    <div class="container">
+
+      <div class="row">
+
+      	<hr class="featurette-divider">
+      	<div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Data Source <span class="text-muted"><small><span class="glyphicon glyphicon-search"></span></small></span></h2>
+          <p class="lead"><p>The data used for this visualization is provided by the US Census. It includes the top 25 imports and exports for each state; along with the top 25 countries they export to. The data can be downloaded at the census website <a href="http://www.censusgov/foreign-trade/statistics/state/data/index.html">here</a>.</p> <p>The data has been converted to a JSON format, then imported into a TaffyDB, a JavaScript database. You can read more about TaffyDB <a href="http://www.taffydb.com/">here</a>.</p>
+		<p>From there, the data is converted into a format suitable for Google Charts to create the visualizations you see.</p></p>
+        </div>
+        </div>
+      	<hr class="featurette-divider">
+      	<div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Source Code <span class="text-muted"><small><span class="glyphicon glyphicon-download-alt"></span></small></span></h2>
+          <p class="lead"><p>The code can be downloaded 
+		<a href="https://github.com/xhspiderman/DataVisualization-Project2">here</a>.
+		After you download the files, open the index2.html in a web browser to view the 
+		the visualizations. Explore the various visualizations and find some interesting 
+		things about the US imports and exports. Enjoy!</p></p>
+        </div>
+        </div>
+      	<hr class="featurette-divider">
+      	<div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Interesting Findings <span class="text-muted"><small><span class="glyphicon glyphicon-eye-open"></span></small></span></h2>
+          <p class="lead"><p>Soybeans are the 5th highest export in 2012 (23 billion), 7th highest in 2013 (20 billion)</p>
+		<p>Hawaii exports more shrimp than coffee.</p></p>
+        </div>
+        </div>
+      	<hr class="featurette-divider">
+      	<div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Project Progress List <span class="text-muted"><small><span class="glyphicon glyphicon-list"></span></small></span></h2>
+	  		<p class="lead">Anthony's Progress</p>
+			<p><b>3/19</b></p>
+			<p>Fixed db bug, info pages</p>
+			<p><b>3/14</b></p>
+			<p>Redo dbs for better integration, Added World Map</p>
+			<p><b>3/7</b></p>
+			<p>Add updated Databases with 2013 data</p>
+			<p><b>2/28</b></p>
+			<p>Added US map selector</p>
+			<p><b>2/21</b></p>
+			<p>Data mine, create DBs, and query demo</p>
+			<p class="lead">Hao's Progress</p>
+			<p><b>3/19</b></p>
+			<p>Added table for Top imports/exports, fixed all suggestions\</p>
+			<p><b>3/14</b></p>
+			<p>Customize bootstrap package, added year toggle, import/export toggle</p>
+			<p><b>3/7</b></p>
+			<p>Add support for Google Geo Charts</p>
+			<p><b>2/28</b></p>
+			<p>Pie Chart data-visualization for detail data</p>
+			<p>Added feature column bar</p>
+			<p><b>2/21</b></p>
+			<p>HS code search/selector</p>
+        </div>
+        </div>
+      <hr>
+      <footer>
+        <p>© Hao Xu &amp; Anthony Xu 2014</p>
+      </footer>
+    </div>
+	</div >
+	
 
     <script>
     // Used to store Selected HS2 code
@@ -395,7 +634,57 @@
         $("#export_geochart_by_country").hide()        
         $("#geochart_by_country_table").hide()
         $("#export_geochart_by_country_table").hide()
-
+        //Animation 
+		$('#otherinformationdiv').hide()
+		$('#instructionsdiv').hide()
+        $( ".draggable" ).draggable({
+		    start: function(event, ui) {
+		        $(this).addClass('noclick');
+		    }
+		});
+        $( '.searchbychar' ).on('click', function(event) {
+		    event.preventDefault();
+		    var target = "#" + $(this).data('target');
+		    $('html, body').animate({
+		        scrollTop: $(target).offset().top
+		    }, 200);
+		    $('#apps').show('fast')
+		    $('#instructionsdiv').hide()
+		    $('#otherinformationdiv').hide()
+		});
+		$('.menuim').on('click',function(event){
+			if ($(this).closest('#cusmenubar').hasClass('noclick')) {
+		        $(this).closest('#cusmenubar').removeClass('noclick');
+		    }
+		    else {
+				if(menutoggle===1){
+				$(this).siblings().hide('fast')
+				$(this).closest('ul').css("background-color", "transparent")
+				$(this).find('img').css({width : '35px',height : '35px'})
+		        // $( "#draggable" ).draggable();
+				menutoggle=0;
+				}else{
+				$(this).siblings().show('fast')	
+				$(this).closest('ul').css("background-color", "#ecf0f1")
+				$(this).find('img').css({width : '60px',height : '60px'})
+				$(this).closest('#cusmenubar').css({top : '0px', left : '0px'})
+				// $( "#draggable" ).draggable();
+				menutoggle=1;
+				}
+			    }
+		})
+		$('#instructionsdivmenu').on('click',function(event){
+			$('#apps').hide('fast')
+			$('#otherinformationdiv').hide('fast')
+			$('#instructionsdiv').show('fast')
+			$("html, body").animate({ scrollTop: 0 }, "fast");
+		})
+		$('#otherinformationdivmenu').on('click',function(event){
+			$('#apps').hide('fast')
+			$('#otherinformationdiv').show('fast')
+			$('#instructionsdiv').hide('fast')
+			$("html, body").animate({ scrollTop: 0 }, "fast");
+		})
 	});
     </script>
 
